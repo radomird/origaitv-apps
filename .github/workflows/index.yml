@@ -1,10 +1,10 @@
 name: Index
 
 # After every push to main, once Check has passed on it: builds index.json
-# from the apps, signs it with origaiTV's key and publishes it as the "index"
+# from the apps, signs it with OrigaiTV's key and publishes it as the "index"
 # release, where a box reads it (ADR-010, ADR-036).
 #
-# Three jobs. The first builds the index and fetches origaiTV's public key,
+# Three jobs. The first builds the index and fetches OrigaiTV's public key,
 # without the signing key. The second has the key and does nothing but sign:
 # it takes index.json as it was built, checks it against the checksum the
 # first job wrote down, and runs bin/sign-index. The third installs each app
@@ -49,7 +49,7 @@ jobs:
       # The key origaitv-keyring trusts, from origaitv-pkgs beside this repo:
       # what the signing key is checked against, and what a box checks the
       # index with.
-      - name: Fetch origaiTV's public key
+      - name: Fetch OrigaiTV's public key
         run: |
           keyring="https://raw.githubusercontent.com/$GITHUB_REPOSITORY_OWNER/origaitv-pkgs/main/origaitv-keyring"
           curl -fsSL -o index/origaitv-trusted "$keyring/origaitv-trusted"

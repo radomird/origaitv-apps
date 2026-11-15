@@ -1,5 +1,5 @@
 // Prime Video on the TV, written by hand. It drives Prime Video's own site in
-// the TV's Chromium, where you sign in on origaiTV's sign-in screen. On Linux,
+// the TV's Chromium, where you sign in on OrigaiTV's sign-in screen. On Linux,
 // Prime Video plays in SD.
 //
 // What it knows about Prime Video comes from Prime Video's pages as they were

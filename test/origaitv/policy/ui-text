@@ -1,3 +1,3 @@
 # Files with words people read on the TV: each app's name, description and
-# messages. bin/origaitv-check holds them to origaiTV's voice (ui-words).
+# messages. bin/origaitv-check holds them to OrigaiTV's voice (ui-words).
 apps/

@@ -1,5 +1,5 @@
 // Jellyfin on the TV: your own Jellyfin server's web app, in the TV's
-// Chromium, signed in there through origaiTV's sign-in screen (ADR-032).
+// Chromium, signed in there through OrigaiTV's sign-in screen (ADR-032).
 //
 // The page keeps Jellyfin's sign-in, the way Jellyfin's web app always does.
 // This app reads the page's token to ask Jellyfin's API for what to show, and

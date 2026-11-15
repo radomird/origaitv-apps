@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "origaitv.steam",
   "name": "Steam",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "origaitv",
   "license": "MIT",
   "description": "Your Steam games, full screen",
