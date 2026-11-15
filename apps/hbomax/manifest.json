@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "agentv.hbomax",
+  "id": "origaitv.hbomax",
   "name": "HBO Max",
   "version": "1.0.2",
-  "author": "agentv",
+  "author": "origaitv",
   "license": "MIT",
   "description": "HBO Max on the TV",
   "kinds": ["tv-app"],

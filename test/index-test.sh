@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # The index a box installs the apps from (ADR-036): bin/index builds it from
-# this repo, a throwaway key stands in for AgenTV's and signs it, and
-# agentv-os's own installer, at the commit in .github/agentv-os, installs
+# this repo, a throwaway key stands in for origaiTV's and signs it, and
+# origaitv-os's own installer, at the commit in .github/origaitv-os, installs
 # each app from it: from its folder, at the commit it names, without its
 # fixtures. A tampered index installs nothing.
 #
@@ -29,20 +29,20 @@ for tool in node gpg gpgv git jq; do
   type -P "$tool" >/dev/null || fail "$tool is installed" "the index's test needs node, gpg, gpgv, git and jq"
 done
 
-"$ROOT/bin/fetch-agentv-os"
+"$ROOT/bin/fetch-origaitv-os"
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 export GNUPGHOME="$work/gnupg"
 mkdir -m 700 "$GNUPGHOME"
-gpg --batch --quiet --passphrase '' --quick-gen-key 'AgenTV test <test@agentv.invalid>' ed25519 sign never 2>/dev/null
-gpg --batch --armor --export test@agentv.invalid >"$work/agentv.asc"
+gpg --batch --quiet --passphrase '' --quick-gen-key 'origaiTV test <test@origaitv.invalid>' ed25519 sign never 2>/dev/null
+gpg --batch --armor --export test@origaitv.invalid >"$work/origaitv.asc"
 
 "$ROOT/bin/index" "$work/index" "file://$ROOT" >/dev/null
 gpg --batch --quiet --detach-sign --output "$work/index/index.json.sig" "$work/index/index.json"
 
 install() {
-  AGENTV_PATH="$ROOT/.agentv-os" AGENTV_STATE="$work/state" AGENTV_KEYRING="$work/agentv.asc" \
-    GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 "$ROOT/.agentv-os/bin/agentv-app-install" "$@"
+  ORIGAITV_PATH="$ROOT/.origaitv-os" ORIGAITV_STATE="$work/state" ORIGAITV_KEYRING="$work/origaitv.asc" \
+    GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 "$ROOT/.origaitv-os/bin/origaitv-app-install" "$@"
 }
 mkdir "$work/state"
 
@@ -67,6 +67,6 @@ done
 
 sed -i.bak 's/"version": *"[^"]*"/"version": "9.9.9"/' "$work/index/index.json"
 status=0
-out=$(install agentv.jellyfin --index "$work/index" 2>&1) || status=$?
+out=$(install origaitv.jellyfin --index "$work/index" 2>&1) || status=$?
 (( status == 1 )) && [[ $out == *"Couldn't verify the app list"* ]] || fail "a tampered index is refused" "exit $status: $out"
 pass "a tampered index installs nothing"

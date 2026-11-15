@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "agentv.jellyfin",
+  "id": "origaitv.jellyfin",
   "name": "Jellyfin",
   "version": "1.0.1",
-  "author": "agentv",
+  "author": "origaitv",
   "license": "MIT",
   "description": "Your Jellyfin library",
   "kinds": ["tv-app"],

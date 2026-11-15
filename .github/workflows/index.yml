@@ -1,10 +1,10 @@
 name: Index
 
 # After every push to main, once Check has passed on it: builds index.json
-# from the apps, signs it with AgenTV's key and publishes it as the "index"
+# from the apps, signs it with origaiTV's key and publishes it as the "index"
 # release, where a box reads it (ADR-010, ADR-036).
 #
-# Three jobs. The first builds the index and fetches AgenTV's public key,
+# Three jobs. The first builds the index and fetches origaiTV's public key,
 # without the signing key. The second has the key and does nothing but sign:
 # it takes index.json as it was built, checks it against the checksum the
 # first job wrote down, and runs bin/sign-index. The third installs each app
@@ -46,21 +46,21 @@ jobs:
       - name: Build it
         run: bin/index index
 
-      # The key agentv-keyring trusts, from agentv-pkgs beside this repo:
+      # The key origaitv-keyring trusts, from origaitv-pkgs beside this repo:
       # what the signing key is checked against, and what a box checks the
       # index with.
-      - name: Fetch AgenTV's public key
+      - name: Fetch origaiTV's public key
         run: |
-          keyring="https://raw.githubusercontent.com/$GITHUB_REPOSITORY_OWNER/agentv-pkgs/main/agentv-keyring"
-          curl -fsSL -o index/agentv-trusted "$keyring/agentv-trusted"
-          curl -fsSL -o index/agentv.gpg "$keyring/agentv.gpg"
+          keyring="https://raw.githubusercontent.com/$GITHUB_REPOSITORY_OWNER/origaitv-pkgs/main/origaitv-keyring"
+          curl -fsSL -o index/origaitv-trusted "$keyring/origaitv-trusted"
+          curl -fsSL -o index/origaitv.gpg "$keyring/origaitv.gpg"
 
       # The list the signing job checks the files against. Its own checksum
       # goes to that job as this job's output, not with the files.
       - name: Write down what was built
         id: sums
         run: |
-          (cd index && sha256sum index.json agentv-trusted agentv.gpg) >SHA256SUMS
+          (cd index && sha256sum index.json origaitv-trusted origaitv.gpg) >SHA256SUMS
           cat SHA256SUMS
           echo "sums=$(sha256sum SHA256SUMS | cut -d' ' -f1)" >>"$GITHUB_OUTPUT"
 
@@ -70,8 +70,8 @@ jobs:
           name: index-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             index/index.json
-            index/agentv-trusted
-            index/agentv.gpg
+            index/origaitv-trusted
+            index/origaitv.gpg
             SHA256SUMS
           if-no-files-found: error
           retention-days: 1
@@ -114,7 +114,7 @@ jobs:
           path: |
             index/index.json
             index/index.json.sig
-            index/agentv.gpg
+            index/origaitv.gpg
           if-no-files-found: error
           retention-days: 1
 

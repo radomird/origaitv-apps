@@ -1,5 +1,5 @@
 // Prime Video on the TV, written by hand. It drives Prime Video's own site in
-// the TV's Chromium, where you sign in on AgenTV's sign-in screen. On Linux,
+// the TV's Chromium, where you sign in on origaiTV's sign-in screen. On Linux,
 // Prime Video plays in SD.
 //
 // What it knows about Prime Video comes from Prime Video's pages as they were
@@ -31,7 +31,7 @@
 // reason, never a retry loop. It has no profiles: Prime Video opens on
 // whichever profile you pick on its own page.
 
-import type { AppContext, AppPage, Item, PlaybackState, TvApp } from "../../.agentv-os/apps/contract/contract.ts";
+import type { AppContext, AppPage, Item, PlaybackState, TvApp } from "../../.origaitv-os/apps/contract/contract.ts";
 
 const ORIGIN = "https://www.primevideo.com";
 const HOME = `${ORIGIN}/`;
@@ -191,7 +191,7 @@ function episodeLink(episode: number): string | null {
 // --- The app -------------------------------------------------------------------
 
 const app: TvApp = {
-  id: "agentv.primevideo",
+  id: "origaitv.primevideo",
 
   async launch(ctx) {
     await page(ctx).goto(HOME);

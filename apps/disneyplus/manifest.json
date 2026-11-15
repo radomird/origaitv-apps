@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "agentv.disneyplus",
+  "id": "origaitv.disneyplus",
   "name": "Disney+",
   "version": "1.0.4",
-  "author": "agentv",
+  "author": "origaitv",
   "license": "MIT",
   "description": "Disney+ on the TV",
   "kinds": ["tv-app"],

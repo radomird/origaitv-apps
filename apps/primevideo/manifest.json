@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "agentv.primevideo",
+  "id": "origaitv.primevideo",
   "name": "Prime Video",
   "version": "1.0.2",
-  "author": "agentv",
+  "author": "origaitv",
   "license": "MIT",
   "description": "Prime Video. Plays in standard definition.",
   "kinds": ["tv-app"],

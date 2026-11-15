@@ -6,10 +6,10 @@
 //
 // Signing in, the library and the games are Steam's own, on the TV.
 
-import type { TvApp } from "../../.agentv-os/apps/contract/contract.ts";
+import type { TvApp } from "../../.origaitv-os/apps/contract/contract.ts";
 
 const app: TvApp = {
-  id: "agentv.steam",
+  id: "origaitv.steam",
 
   // The box opens Steam itself, so there's nothing for the app to do.
   async launch() {},

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # How the index gets signed (bin/sign-index), with a throwaway key standing
-# in for AgenTV's: it signs only with the key agentv-keyring trusts, the key
+# in for origaiTV's: it signs only with the key origaitv-keyring trusts, the key
 # is out of the environment before anything else runs, and bin/publish-index
 # takes no key at all. Also reads the Index workflow, to see that only its
 # signing job is given the key. It needs gpg and nothing from the network.
@@ -29,23 +29,23 @@ done
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 
-# Two throwaway keys: one stands in for AgenTV's, one for anyone else's.
+# Two throwaway keys: one stands in for origaiTV's, one for anyone else's.
 new_key() {
   local home="$work/$1-home"
   mkdir -m 700 "$home"
-  gpg --homedir "$home" --batch --quiet --passphrase '' --quick-gen-key "$1 <$1@agentv.invalid>" ed25519 sign never 2>/dev/null
+  gpg --homedir "$home" --batch --quiet --passphrase '' --quick-gen-key "$1 <$1@origaitv.invalid>" ed25519 sign never 2>/dev/null
   gpg --homedir "$home" --batch --armor --export-secret-keys 2>/dev/null >"$work/$1.secret"
   gpg --homedir "$home" --batch --export 2>/dev/null >"$work/$1.gpg"
   gpg --homedir "$home" --batch --with-colons --list-keys 2>/dev/null | awk -F: '$1 == "fpr" { print $10; exit }' >"$work/$1.fpr"
 }
-new_key agentv
+new_key origaitv
 new_key other
 
 new_index() {
   rm -rf "$work/index"
   mkdir "$work/index"
   printf '{"schema": 1, "apps": []}\n' >"$work/index/index.json"
-  printf '%s:4:\n' "$(cat "$work/agentv.fpr")" >"$work/index/agentv-trusted"
+  printf '%s:4:\n' "$(cat "$work/origaitv.fpr")" >"$work/index/origaitv-trusted"
 }
 
 # gpgv, but it writes down whether the key was still in its environment.
@@ -59,11 +59,11 @@ STANDIN
 chmod +x "$work/bin/gpgv"
 
 new_index
-out=$(PATH="$work/bin:$PATH" AGENTV_SIGNING_KEY="$(cat "$work/agentv.secret")" "$ROOT/bin/sign-index" "$work/index" 2>&1) ||
-  fail "bin/sign-index signs the index with the key agentv-keyring trusts" "$out"
-gpgv --quiet --keyring "$work/agentv.gpg" "$work/index/index.json.sig" "$work/index/index.json" 2>/dev/null ||
+out=$(PATH="$work/bin:$PATH" AGENTV_SIGNING_KEY="$(cat "$work/origaitv.secret")" "$ROOT/bin/sign-index" "$work/index" 2>&1) ||
+  fail "bin/sign-index signs the index with the key origaitv-keyring trusts" "$out"
+gpgv --quiet --keyring "$work/origaitv.gpg" "$work/index/index.json.sig" "$work/index/index.json" 2>/dev/null ||
   fail "the index has a good signature from that key"
-pass "bin/sign-index signs the index with the key agentv-keyring trusts"
+pass "bin/sign-index signs the index with the key origaitv-keyring trusts"
 [[ -s $work/gpgv-env ]] || fail "the signature is checked after signing"
 ! grep -q leaked "$work/gpgv-env" || fail "the key is out of the environment before anything else runs"
 pass "the key is out of the environment before anything else runs"
@@ -78,15 +78,15 @@ out=$(env -u AGENTV_SIGNING_KEY "$ROOT/bin/sign-index" "$work/index" 2>&1) && fa
 [[ ! -e $work/index/index.json.sig ]] || fail "without the key nothing is signed" "it left a signature"
 pass "without the key nothing is signed"
 
-out=$(AGENTV_SIGNING_KEY="$(cat "$work/agentv.secret" "$work/other.secret")" "$ROOT/bin/sign-index" "$work/index" 2>&1) &&
+out=$(AGENTV_SIGNING_KEY="$(cat "$work/origaitv.secret" "$work/other.secret")" "$ROOT/bin/sign-index" "$work/index" 2>&1) &&
   fail "two keys in the secret stop it" "$out"
 pass "two keys in the secret stop it"
 
 # bin/publish-index never signs, and says so before it does anything.
-out=$(AGENTV_SIGNING_KEY=anything GITHUB_REPOSITORY=someone/agentv-apps GITHUB_SHA=0 "$ROOT/bin/publish-index" "$work/index" 2>&1) &&
+out=$(AGENTV_SIGNING_KEY=anything GITHUB_REPOSITORY=someone/origaitv-apps GITHUB_SHA=0 "$ROOT/bin/publish-index" "$work/index" 2>&1) &&
   fail "bin/publish-index refuses the key" "$out"
 [[ $out == *"doesn't sign"* ]] || fail "bin/publish-index refuses the key" "$out"
-out=$(env -u AGENTV_SIGNING_KEY GITHUB_REPOSITORY=someone/agentv-apps GITHUB_SHA=0 "$ROOT/bin/publish-index" "$work/index" 2>&1) &&
+out=$(env -u AGENTV_SIGNING_KEY GITHUB_REPOSITORY=someone/origaitv-apps GITHUB_SHA=0 "$ROOT/bin/publish-index" "$work/index" 2>&1) &&
   fail "bin/publish-index publishes nothing without a signature" "$out"
 [[ $out == *"only ever published signed"* ]] || fail "bin/publish-index publishes nothing without a signature" "$out"
 pass "bin/publish-index takes no key, and publishes nothing without a signature"
@@ -105,6 +105,6 @@ jobs_with() {
 [[ $(jobs_with 'contents: write') == "publish" ]] || fail "only the publishing job may write to the repo" "$(jobs_with 'contents: write')"
 sign_job=$(awk '/^  sign:$/ { on = 1; next } on && /^  [a-z][a-z0-9-]*:$/ { on = 0 } on' "$workflow")
 [[ -n $sign_job ]] || fail "the workflow has a signing job"
-busy=$(grep -nE 'curl |git (fetch|clone)|gh |fetch-agentv-os|npm |node ' <<<"$sign_job" || true)
+busy=$(grep -nE 'curl |git (fetch|clone)|gh |fetch-origaitv-os|npm |node ' <<<"$sign_job" || true)
 [[ -z $busy ]] || fail "the signing job fetches and runs nothing else" "$busy"
 pass "only the signing job is given the key, from the release environment, and it only signs"

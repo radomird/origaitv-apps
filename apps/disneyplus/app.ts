@@ -1,6 +1,6 @@
 // Disney+ on the TV, written by hand. It drives Disney+'s own site in the
-// TV's Chromium, where you sign in on AgenTV's sign-in screen (ADR-032). It's
-// also the yardstick for what AgenTV's builder writes (ADR-011).
+// TV's Chromium, where you sign in on origaiTV's sign-in screen (ADR-032). It's
+// also the yardstick for what origaiTV's builder writes (ADR-011).
 //
 // What it knows about Disney+ comes from Disney+'s pages as they were
 // captured from a signed-in session on my NUC, and from what the capture's
@@ -28,7 +28,7 @@
 //
 // It has no profiles: Disney+ opens on whichever profile it's signed in to.
 
-import type { AppContext, AppPage, Item, PlaybackState, TvApp } from "../../.agentv-os/apps/contract/contract.ts";
+import type { AppContext, AppPage, Item, PlaybackState, TvApp } from "../../.origaitv-os/apps/contract/contract.ts";
 
 const ORIGIN = "https://www.disneyplus.com";
 const HOME = `${ORIGIN}/`;
@@ -273,7 +273,7 @@ async function pickSeason(season: number): Promise<string | null> {
 let learned: { key: string; title: string; season?: number; episode?: number; offset: number; duration: number; at: number } | null = null;
 
 const app: TvApp = {
-  id: "agentv.disneyplus",
+  id: "origaitv.disneyplus",
 
   async launch(ctx) {
     await page(ctx).goto(HOME);
