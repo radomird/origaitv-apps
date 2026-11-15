@@ -1,5 +1,5 @@
 // Plex on the TV: your own Plex Media Server's web app, in the TV's Chromium,
-// signed in there with your Plex account through origaiTV's sign-in screen
+// signed in there with your Plex account through OrigaiTV's sign-in screen
 // (ADR-032), with the phone's keyboard for the password.
 //
 // Plex's web app keeps the account's token in its page's localStorage, as
@@ -14,7 +14,7 @@ const ASK_MS = 10_000;
 const READ_MS = 5_000;
 
 // Who's asking, as Plex wants every client to say.
-const CLIENT = { "X-Plex-Product": "origaiTV", "X-Plex-Client-Identifier": "origaitv-plex", Accept: "application/json" };
+const CLIENT = { "X-Plex-Product": "OrigaiTV", "X-Plex-Client-Identifier": "origaitv-plex", Accept: "application/json" };
 
 function timed<T>(promise: Promise<T>, ms: number): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;

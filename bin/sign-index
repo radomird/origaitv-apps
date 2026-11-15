@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Signs the index bin/index built, in <dir>, with origaiTV's key. That's all
+# Signs the index bin/index built, in <dir>, with OrigaiTV's key. That's all
 # it does: it needs gpg, and it fetches nothing, so the job that has the key
 # runs this and nothing else. bin/publish-index installs from the signed
 # index and publishes it afterwards, without the key.

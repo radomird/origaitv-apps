@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # How the index gets signed (bin/sign-index), with a throwaway key standing
-# in for origaiTV's: it signs only with the key origaitv-keyring trusts, the key
+# in for OrigaiTV's: it signs only with the key origaitv-keyring trusts, the key
 # is out of the environment before anything else runs, and bin/publish-index
 # takes no key at all. Also reads the Index workflow, to see that only its
 # signing job is given the key. It needs gpg and nothing from the network.
@@ -29,7 +29,7 @@ done
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 
-# Two throwaway keys: one stands in for origaiTV's, one for anyone else's.
+# Two throwaway keys: one stands in for OrigaiTV's, one for anyone else's.
 new_key() {
   local home="$work/$1-home"
   mkdir -m 700 "$home"

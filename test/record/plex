@@ -23,7 +23,7 @@ IMAGE=${ORIGAITV_PLEX_IMAGE:-plexinc/pms-docker:1.43.4.10903-e5521bd8c}
 PORT=${ORIGAITV_PLEX_PORT:-32401}
 BASE="http://127.0.0.1:$PORT"
 # Who's asking, as the app says it.
-CLIENT=(-H "X-Plex-Product: origaiTV" -H "X-Plex-Client-Identifier: origaitv-plex" -H "Accept: application/json")
+CLIENT=(-H "X-Plex-Product: OrigaiTV" -H "X-Plex-Client-Identifier: origaitv-plex" -H "Accept: application/json")
 
 work=$(mktemp -d)
 name="origaitv-plex-$$"

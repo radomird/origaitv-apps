@@ -1,7 +1,7 @@
 name: Check
 
 # Every pull request and every push to main (ADR-019, ADR-036): the fast gate
-# shared with origaiTV's other repos, the apps' types against the app contract,
+# shared with OrigaiTV's other repos, the apps' types against the app contract,
 # the recorded replies, every app against its fixtures with origaitv-os's own
 # contract runner, and an index built from the change that origaitv-os's own
 # installer installs each app from. origaitv-os is at the commit in
@@ -80,7 +80,7 @@ jobs:
         run: test/versions "$BASE"
       - name: Each app installs from a signed index, the way a box installs it
         run: test/index-test.sh
-      - name: The index is signed by origaiTV's key only, in a job that does nothing else
+      - name: The index is signed by OrigaiTV's key only, in a job that does nothing else
         run: test/sign-index-test.sh
 
   contract:

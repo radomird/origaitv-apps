@@ -1,5 +1,5 @@
 // HBO Max on the TV, written by hand. It drives HBO Max's own site in the
-// TV's Chromium, where you sign in on origaiTV's sign-in screen.
+// TV's Chromium, where you sign in on OrigaiTV's sign-in screen.
 //
 // What it knows about HBO Max comes from HBO Max's pages as they were
 // captured from a signed-in session on my NUC, never from guesses. Those

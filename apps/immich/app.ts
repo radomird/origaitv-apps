@@ -1,5 +1,5 @@
 // Immich on the TV: your own Immich server's web app, in the TV's Chromium,
-// signed in there through origaiTV's sign-in screen (ADR-032).
+// signed in there through OrigaiTV's sign-in screen (ADR-032).
 //
 // Immich keeps its sign-in in the page's cookies, out of reach of anything
 // but the page. So this app asks Immich's API from the page itself, which

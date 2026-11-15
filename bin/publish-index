@@ -42,7 +42,7 @@ done
 # The release is made the first time; after that, its two files are replaced.
 if ! gh release view index -R "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
   gh release create index -R "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "App index" \
-    --notes "The signed index origaiTV boxes install the official apps from. CI replaces index.json and index.json.sig on every push to main."
+    --notes "The signed index OrigaiTV boxes install the official apps from. CI replaces index.json and index.json.sig on every push to main."
 fi
 gh release upload index -R "$GITHUB_REPOSITORY" --clobber "$dir/index.json" "$dir/index.json.sig"
 jq -r '.apps[] | "\(.id) \(.version) at \(.commit[0:12])"' "$dir/index.json"

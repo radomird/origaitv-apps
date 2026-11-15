@@ -22,7 +22,7 @@ DIR="$ROOT/apps/jellyfin/fixtures"
 IMAGE=${ORIGAITV_JELLYFIN_IMAGE:-jellyfin/jellyfin:10.10.7}
 PORT=${ORIGAITV_JELLYFIN_PORT:-18096}
 BASE="http://127.0.0.1:$PORT"
-CLIENT='MediaBrowser Client="origaiTV", Device="fixtures", DeviceId="origaitv-fixtures", Version="1"'
+CLIENT='MediaBrowser Client="OrigaiTV", Device="fixtures", DeviceId="origaitv-fixtures", Version="1"'
 # The page on the TV: its device id is the one the app reads from it.
 WEB_DEVICE=fixtures-web
 WEB="MediaBrowser Client=\"Jellyfin Web\", Device=\"Chromium\", DeviceId=\"$WEB_DEVICE\", Version=\"10.10.7\""

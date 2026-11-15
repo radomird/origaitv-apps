@@ -1,10 +1,8 @@
 # origaitv-apps
 
-The apps that come with [origaiTV](https://github.com/radomird/origaitv-os), the world's first open-source agentic TV OS. Powered by [Omarchy](https://omarchy.org).
+The apps that come with [OrigaiTV](https://github.com/radomird/origaitv-os), the world's first open-source agentic TV OS. Powered by [Omarchy](https://omarchy.org).
 
-origaiTV used to be called AgenTV, and so did this repo.
-
-If you run origaiTV, this is where the apps in _Apps_ on your TV come from. If you write code, it's also the place to see how an origaiTV app is put together.
+If you run OrigaiTV, this is where the apps in _Apps_ on your TV come from. If you write code, it's also the place to see how an OrigaiTV app is put together.
 
 ## What you get
 
@@ -26,15 +24,15 @@ Netflix, YouTube and YouTube Kids are coming soon.
 
 ## Your passwords stay yours
 
-Jellyfin, Immich and Plex only talk to the server you point them at (and Plex to its own sign-in page). Disney+, HBO Max and Prime Video only open their own sites (and Prime Video sends you to Amazon's own page to sign in). Either way, you sign in on that site's own page, inside origaiTV's sign-in screen, and the box never keeps your password.
+Jellyfin, Immich and Plex only talk to the server you point them at (and Plex to its own sign-in page). Disney+, HBO Max and Prime Video only open their own sites (and Prime Video sends you to Amazon's own page to sign in). Either way, you sign in on that site's own page, inside OrigaiTV's sign-in screen, and the box never keeps your password.
 
 Steam is just Steam. The box starts it like any other program, and the app itself doesn't talk to anything.
 
 ## How your box gets the apps
 
-Every time an app changes here, CI builds a fresh list of apps (`index.json`), signs it with origaiTV's key, and puts it in this repo's `index` release.
+Every time an app changes here, CI builds a fresh list of apps (`index.json`), signs it with OrigaiTV's key, and puts it in this repo's `index` release.
 
-Your box downloads that list and checks the signature, so it knows the list really came from origaiTV. Then it downloads the app at the exact commit the list names, checks that it follows origaiTV's app rules, and only then runs it. Updating one app never touches the others.
+Your box downloads that list and checks the signature, so it knows the list really came from OrigaiTV. Then it downloads the app at the exact commit the list names, checks that it follows OrigaiTV's app rules, and only then runs it. Updating one app never touches the others.
 
 ## For developers
 
@@ -48,7 +46,7 @@ test/run
 
 That's what CI runs on a pull request:
 
-- the basic checks every origaiTV repo has: no em dashes, no secrets, no streaming service named outside its own app's folder, and clean shell scripts
+- the basic checks every OrigaiTV repo has: no em dashes, no secrets, no streaming service named outside its own app's folder, and clean shell scripts
 - type checks against the app rules in [origaitv-os](https://github.com/radomird/origaitv-os)
 - each app against its test data (replies recorded from its real server, or pages made by hand), in a real Chromium with no network
 - a real install, from a test list signed with a throwaway key
@@ -76,4 +74,4 @@ A streaming service changes its pages now and then, and an app here can stop fin
 
 ## License
 
-MIT, like Omarchy. origaiTV isn't made or endorsed by the Omarchy project.
+MIT, like Omarchy. OrigaiTV isn't made or endorsed by the Omarchy project.

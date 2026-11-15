@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # The index a box installs the apps from (ADR-036): bin/index builds it from
-# this repo, a throwaway key stands in for origaiTV's and signs it, and
+# this repo, a throwaway key stands in for OrigaiTV's and signs it, and
 # origaitv-os's own installer, at the commit in .github/origaitv-os, installs
 # each app from it: from its folder, at the commit it names, without its
 # fixtures. A tampered index installs nothing.
@@ -34,7 +34,7 @@ work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 export GNUPGHOME="$work/gnupg"
 mkdir -m 700 "$GNUPGHOME"
-gpg --batch --quiet --passphrase '' --quick-gen-key 'origaiTV test <test@origaitv.invalid>' ed25519 sign never 2>/dev/null
+gpg --batch --quiet --passphrase '' --quick-gen-key 'OrigaiTV test <test@origaitv.invalid>' ed25519 sign never 2>/dev/null
 gpg --batch --armor --export test@origaitv.invalid >"$work/origaitv.asc"
 
 "$ROOT/bin/index" "$work/index" "file://$ROOT" >/dev/null

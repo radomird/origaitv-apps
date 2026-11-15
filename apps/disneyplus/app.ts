@@ -1,6 +1,6 @@
 // Disney+ on the TV, written by hand. It drives Disney+'s own site in the
-// TV's Chromium, where you sign in on origaiTV's sign-in screen (ADR-032). It's
-// also the yardstick for what origaiTV's builder writes (ADR-011).
+// TV's Chromium, where you sign in on OrigaiTV's sign-in screen (ADR-032). It's
+// also the yardstick for what OrigaiTV's builder writes (ADR-011).
 //
 // What it knows about Disney+ comes from Disney+'s pages as they were
 // captured from a signed-in session on my NUC, and from what the capture's
