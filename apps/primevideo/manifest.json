@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "origaitv.primevideo",
   "name": "Prime Video",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "origaitv",
   "license": "MIT",
   "description": "Prime Video. Plays in standard definition.",

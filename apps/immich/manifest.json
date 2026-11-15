@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "origaitv.immich",
   "name": "Immich",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "origaitv",
   "license": "MIT",
   "description": "Your Immich photos",

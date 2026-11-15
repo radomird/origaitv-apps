@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "origaitv.jellyfin",
   "name": "Jellyfin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "origaitv",
   "license": "MIT",
   "description": "Your Jellyfin library",
