@@ -19,14 +19,14 @@ set -euo pipefail
 
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
 DIR="$ROOT/apps/plex/fixtures"
-IMAGE=${AGENTV_PLEX_IMAGE:-plexinc/pms-docker:1.43.4.10903-e5521bd8c}
-PORT=${AGENTV_PLEX_PORT:-32401}
+IMAGE=${ORIGAITV_PLEX_IMAGE:-plexinc/pms-docker:1.43.4.10903-e5521bd8c}
+PORT=${ORIGAITV_PLEX_PORT:-32401}
 BASE="http://127.0.0.1:$PORT"
 # Who's asking, as the app says it.
-CLIENT=(-H "X-Plex-Product: AgenTV" -H "X-Plex-Client-Identifier: agentv-plex" -H "Accept: application/json")
+CLIENT=(-H "X-Plex-Product: origaiTV" -H "X-Plex-Client-Identifier: origaitv-plex" -H "Accept: application/json")
 
 work=$(mktemp -d)
-name="agentv-plex-$$"
+name="origaitv-plex-$$"
 cleanup() {
   docker rm -f "$name" >/dev/null 2>&1 || true
   rm -rf "$work"

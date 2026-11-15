@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Type-checks the apps and the tests here (ADR-019, layer 1) against the app
-# contract in agentv-os, at the commit in .github/agentv-os, with the same
-# TypeScript, Node types and Playwright types as agentv-os, fetched into a
+# contract in origaitv-os, at the commit in .github/origaitv-os, with the same
+# TypeScript, Node types and Playwright types as origaitv-os, fetched into a
 # folder of their own. A box never needs them: Node runs an app's TypeScript
 # as it is, and an app imports the contract's types only.
 #
@@ -15,7 +15,7 @@ TYPESCRIPT=typescript@5.9.3
 NODE_TYPES=@types/node@24.10.1
 PLAYWRIGHT=playwright-core@1.56.1
 
-"$ROOT/bin/fetch-agentv-os"
+"$ROOT/bin/fetch-origaitv-os"
 tools=$(mktemp -d)
 trap 'rm -rf "$tools"' EXIT
 npm install --prefix "$tools" --no-save --no-audit --no-fund --silent "$TYPESCRIPT" "$NODE_TYPES" "$PLAYWRIGHT"

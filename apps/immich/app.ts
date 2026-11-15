@@ -1,12 +1,12 @@
 // Immich on the TV: your own Immich server's web app, in the TV's Chromium,
-// signed in there through AgenTV's sign-in screen (ADR-032).
+// signed in there through origaiTV's sign-in screen (ADR-032).
 //
 // Immich keeps its sign-in in the page's cookies, out of reach of anything
 // but the page. So this app asks Immich's API from the page itself, which
 // sends them, and opens an album at its own address on Immich's web app.
 // Nothing here depends on how Immich lays out its pages.
 
-import type { AppContext, Item, TvApp } from "../../.agentv-os/apps/contract/contract.ts";
+import type { AppContext, Item, TvApp } from "../../.origaitv-os/apps/contract/contract.ts";
 
 const ASK_MS = 10_000;
 const OPEN_MS = 15_000;
@@ -62,7 +62,7 @@ async function albums(ctx: AppContext): Promise<ImmichAlbum[]> {
 }
 
 const app: TvApp = {
-  id: "agentv.immich",
+  id: "origaitv.immich",
 
   async launch(ctx) {
     await pageOf(ctx).goto(`${serverOf(ctx)}/`);

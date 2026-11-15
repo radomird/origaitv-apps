@@ -1,9 +1,9 @@
 # Hosts of the streaming services whose automation never goes into a public
-# repo (CLAUDE.md, ADR-017, ADR-066). bin/agentv-check fails on any of these
-# in a file AgenTV adds. Perl regular expressions, matched without regard to
+# repo (CLAUDE.md, ADR-017, ADR-066). bin/origaitv-check fails on any of these
+# in a file origaiTV adds. Perl regular expressions, matched without regard to
 # case.
 #
-# "#@ <id>" starts a service's lines. In agentv-apps only, the app in that
+# "#@ <id>" starts a service's lines. In origaitv-apps only, the app in that
 # service's own folder (service-folders) may use them. Every other repo has
 # no service-folders, so there they're refused everywhere. Spotify comes
 # first, under no heading: it's agent-built only and never in a repo.

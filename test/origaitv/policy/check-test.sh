@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Guards the fast gate itself: bin/agentv-check must pass a clean fork and
+# Guards the fast gate itself: bin/origaitv-check must pass a clean fork and
 # fail each kind of change it exists to stop. It builds a throwaway repo with
 # a fake upstream tag, so it never touches this checkout. Runs on bash 3.2.
 
@@ -31,9 +31,9 @@ repo="$SANDBOX/fork"
 mkdir -p "$repo"
 cd "$repo"
 git init -q -b main
-git config user.name "AgenTV test"
+git config user.name "origaiTV test"
 git config user.email "test@example.invalid"
-git remote add origin "https://github.com/example-owner/agentv-os.git"
+git remote add origin "https://github.com/example-owner/origaitv-os.git"
 
 # Upstream: an MIT licence and a file of Omarchy's that has an em dash of its
 # own, which is not ours to change.
@@ -45,21 +45,21 @@ git add -A
 git commit -q -m "Upstream release"
 git tag v1.0.0
 
-# AgenTV's additions.
-mkdir -p .github test/agentv/policy
-cp "$ROOT/bin/agentv-check" bin/
-# The lists, but not agentv-apps' service-folders: the cases below write
+# origaiTV's additions.
+mkdir -p .github test/origaitv/policy
+cp "$ROOT/bin/origaitv-check" bin/
+# The lists, but not origaitv-apps' service-folders: the cases below write
 # their own.
-cp "$ROOT"/test/agentv/policy/service-hosts "$ROOT"/test/agentv/policy/service-names \
-  "$ROOT"/test/agentv/policy/upstream-exceptions "$ROOT"/test/agentv/policy/owner-allowed \
-  test/agentv/policy/
+cp "$ROOT"/test/origaitv/policy/service-hosts "$ROOT"/test/origaitv/policy/service-names \
+  "$ROOT"/test/origaitv/policy/upstream-exceptions "$ROOT"/test/origaitv/policy/owner-allowed \
+  test/origaitv/policy/
 printf 'v1.0.0\n' >.github/omarchy-base
 printf 'example/upstream\n' >.github/omarchy-upstream
-printf 'AgenTV. Powered by Omarchy.\n' >.github/README.md
-printf '#!/bin/bash\n\necho "hello"\n' >bin/agentv-hello
-chmod +x bin/agentv-hello
+printf 'origaiTV. Powered by Omarchy.\n' >.github/README.md
+printf '#!/bin/bash\n\necho "hello"\n' >bin/origaitv-hello
+chmod +x bin/origaitv-hello
 git add -A
-git commit -q -m "Add AgenTV"
+git commit -q -m "Add origaiTV"
 clean=$(git rev-parse HEAD)
 
 reset_fork() {
@@ -71,7 +71,7 @@ reset_fork() {
 expect_fail() {
   local description="$1" expected="$2" output
 
-  if output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1); then
+  if output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1); then
     fail "$description" "the gate passed, but it should have failed"
   fi
   [[ $output == *"not ok - $expected"* ]] || fail "$description" "$output"
@@ -81,7 +81,7 @@ expect_fail() {
 
 # --- A clean fork passes ----------------------------------------------------
 
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a clean fork passes" "$output"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a clean fork passes" "$output"
 pass "a clean fork passes"
 
 # --- Each rule catches what it's for ----------------------------------------
@@ -99,9 +99,9 @@ expect_fail "a deleted Omarchy file fails" "Omarchy's files are unchanged"
 git mv upstream.txt renamed.txt
 expect_fail "a renamed Omarchy file fails" "Omarchy's files are unchanged"
 
-printf 'upstream.txt\n' >>test/agentv/policy/upstream-exceptions
+printf 'upstream.txt\n' >>test/origaitv/policy/upstream-exceptions
 printf 'allowed\n' >>upstream.txt
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a listed exception may change" "$output"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a listed exception may change" "$output"
 pass "a listed exception may change"
 reset_fork
 
@@ -113,6 +113,21 @@ git add notes.md
 git commit -q -m "$(printf 'Add notes \xe2\x80\x94 with a dash')"
 expect_fail "an em dash in a commit message fails" "no em dashes"
 
+printf 'Run agentv selftest on the box.\n' >notes.md
+expect_fail "the old name in a new file fails" "the old name is only where it has to be"
+
+printf 'x\n' >AgenTV-notes.md
+expect_fail "a file named after the old name fails" "the old name is only where it has to be"
+
+mkdir -p test/origaitv/policy
+printf '# Saying once what the project used to be called.\nused to be called AgenTV\n' >test/origaitv/policy/old-name-allowed
+printf 'origaiTV used to be called AgenTV.\n' >notes.md
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || true
+[[ $output == *"ok - the old name is only where it has to be"* && $output != *"not ok - the old name"* ]] ||
+  fail "a line the allowed list names may say the old name" "$output"
+pass "a line the allowed list names may say the old name"
+reset_fork
+
 printf 'const home = "https://www.netflix.com/browse";\n' >app.ts
 expect_fail "a service host in code fails" "no service automation"
 
@@ -123,7 +138,7 @@ printf 'export const selector = "spotify-player";\n' >app.ts
 expect_fail "a service name in code fails" "no service automation"
 
 printf 'Spotify is only ever agent-built, on the box.\n' >notes.md
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a service name in prose is allowed" "$output"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a service name in prose is allowed" "$output"
 pass "a service name in prose is allowed"
 reset_fork
 
@@ -136,30 +151,30 @@ expect_fail "HBO Max's name in code fails" "no service automation"
 printf 'const home = "https://www.skyshowtime.com/";\n' >app.ts
 expect_fail "SkyShowtime's host in code fails" "no service automation"
 
-# --- A service's own folder, in agentv-apps only ----------------------------
+# --- A service's own folder, in origaitv-apps only ----------------------------
 
-# Every repo but agentv-apps: no service-folders, so an app's folder is
+# Every repo but origaitv-apps: no service-folders, so an app's folder is
 # refused like any other.
 mkdir -p apps/netflix
 printf 'const home = "https://www.netflix.com/";\n' >apps/netflix/app.ts
 expect_fail "without service-folders, a service's own folder is refused too" "no service automation"
 
-# agentv-apps: each service's lines in its own folder, and nowhere else.
+# origaitv-apps: each service's lines in its own folder, and nowhere else.
 own_folders() {
-  printf 'netflix apps/netflix/\nyoutubekids apps/youtubekids\nhbomax apps/hbomax/\n' >test/agentv/policy/service-folders
+  printf 'netflix apps/netflix/\nyoutubekids apps/youtubekids\nhbomax apps/hbomax/\n' >test/origaitv/policy/service-folders
   mkdir -p apps/netflix apps/youtubekids apps/hbomax
 }
 
 own_folders
 printf 'export const name = "Netflix";\nconst home = "https://www.netflix.com/";\nconst art = "https://occ.nflxext.com/";\n' >apps/netflix/app.ts
 printf 'Netflix opens www.netflix.com.\n' >apps/netflix/README.md
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a service's name and hosts are allowed in its own folder" "$output"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a service's name and hosts are allowed in its own folder" "$output"
 pass "a service's name and hosts are allowed in its own folder"
 reset_fork
 
 own_folders
 printf 'export const name = "YouTube Kids";\nconst home = "https://www.youtubekids.com/";\nconst art = "https://i.ytimg.com/";\n' >apps/youtubekids/app.ts
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a heading can give a line to two services" "$output"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a heading can give a line to two services" "$output"
 pass "a heading can give a line to two services, and a folder may leave off its slash"
 reset_fork
 
@@ -192,7 +207,7 @@ own_folders
 printf 'const home = "https://www.skyshowtime.com/";\n' >apps/netflix/app.ts
 expect_fail "a service with no folder is refused in every folder" "no service automation"
 
-printf 'const url = "https://github.com/example-owner/agentv-index";\n' >app.ts
+printf 'const url = "https://github.com/example-owner/origaitv-index";\n' >app.ts
 expect_fail "the GitHub owner in code fails" "the GitHub owner"
 
 mkdir -p setup
@@ -201,7 +216,7 @@ expect_fail "an emoji in UI text fails" "no emoji in UI text"
 
 mkdir -p setup
 printf '<p>Connected \xe2\x9c\x93</p>\n' >setup/welcome.html
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a plain check mark is not an emoji" "$output"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a plain check mark is not an emoji" "$output"
 pass "a plain check mark is not an emoji"
 reset_fork
 
@@ -209,35 +224,35 @@ reset_fork
 # keeps them.
 voice_lists() {
   mkdir -p setup
-  printf 'setup/\n' >test/agentv/policy/ui-text
-  cp "$ROOT/test/agentv/policy/ui-words" test/agentv/policy/ui-words
-  printf '# none\n' >test/agentv/policy/ui-words-allowed
+  printf 'setup/\n' >test/origaitv/policy/ui-text
+  cp "$ROOT/test/origaitv/policy/ui-words" test/origaitv/policy/ui-words
+  printf '# none\n' >test/origaitv/policy/ui-words-allowed
 }
 
 voice_lists
 printf 'line("Your agent is making it in the background");\n' >setup/make.ts
-expect_fail "a word the TV never says, in UI text, fails" "UI text is in AgenTV's voice"
+expect_fail "a word the TV never says, in UI text, fails" "UI text is in origaiTV's voice"
 
 voice_lists
 printf 'h("button", {}, "\xe2\x86\xb5 Join");\n' >setup/join.ts
-expect_fail "a key in a button's words fails" "UI text is in AgenTV's voice"
+expect_fail "a key in a button's words fails" "UI text is in origaiTV's voice"
 
 voice_lists
 printf 'line("Pick your country");\n' >setup/where.ts
-expect_fail "country, where people read location, fails" "UI text is in AgenTV's voice"
+expect_fail "country, where people read location, fails" "UI text is in origaiTV's voice"
 
 voice_lists
 printf '// Asks the agent, through the daemon.\nh("div", { class: "agent tile" }, "Build your own");\nconst match = /the box didn.t answer/;\n' >setup/make.ts
 mkdir -p setup/tests
 printf 'assert.match(text, "your agent built it");\n' >setup/tests/make.test.ts
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "the words in a comment, a class name, a regex or a test pass" "$output"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "the words in a comment, a class name, a regex or a test pass" "$output"
 pass "the words in a comment, a class name, a regex or a test pass"
 reset_fork
 
 voice_lists
 printf 'line("Accept your AI provider\x27s terms");\n' >setup/terms.ts
-printf 'setup/terms.ts ^Accept your AI provider.s terms$\n' >test/agentv/policy/ui-words-allowed
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a string in ui-words-allowed passes" "$output"
+printf 'setup/terms.ts ^Accept your AI provider.s terms$\n' >test/origaitv/policy/ui-words-allowed
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a string in ui-words-allowed passes" "$output"
 pass "a string in ui-words-allowed passes"
 reset_fork
 
@@ -248,26 +263,26 @@ reset_fork
 daemon_lists() {
   voice_lists
   mkdir -p daemon
-  grep '^daemon/ only:' "$ROOT/test/agentv/policy/ui-text" >>test/agentv/policy/ui-text
+  grep '^daemon/ only:' "$ROOT/test/origaitv/policy/ui-text" >>test/origaitv/policy/ui-text
 }
 
-if grep -q '^daemon/ only:' "$ROOT/test/agentv/policy/ui-text"; then
+if grep -q '^daemon/ only:' "$ROOT/test/origaitv/policy/ui-text"; then
   daemon_lists
   printf 'export function why(): string {\n  return "The daemon stopped";\n}\n' >daemon/why.ts
-  expect_fail "a string the daemon returns, with a word the TV never says, fails" "UI text is in AgenTV's voice"
+  expect_fail "a string the daemon returns, with a word the TV never says, fails" "UI text is in origaiTV's voice"
 
   daemon_lists
   # shellcheck disable=SC2016 # the ${id} is TypeScript's, not this script's
   printf 'throw new AppError("refused", `${id} isn\x27t on this box`);\n' >daemon/why.ts
-  expect_fail "an error the daemon throws, starting with a value, fails" "UI text is in AgenTV's voice"
+  expect_fail "an error the daemon throws, starting with a value, fails" "UI text is in origaiTV's voice"
 fi
 
-printf 'Just AgenTV.\n' >.github/README.md
+printf 'Just origaiTV.\n' >.github/README.md
 expect_fail "a README without Powered by Omarchy fails" "Omarchy's attribution is present"
 
 if have shellcheck; then
   # shellcheck disable=SC2016 # the broken script is the point
-  printf '#!/bin/bash\necho $1\n' >bin/agentv-unquoted
+  printf '#!/bin/bash\necho $1\n' >bin/origaitv-unquoted
   expect_fail "a shellcheck warning fails" "shell scripts pass shellcheck"
 
   mkdir -p install/tv
@@ -298,7 +313,7 @@ fi
 
 # perl's two-argument open runs a name like this as a command.
 printf 'a pause \xe2\x80\x94 here\n' >'x|touch PWNED|'
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) && fail "a file named like a pipe is still scanned" "$output"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) && fail "a file named like a pipe is still scanned" "$output"
 [[ ! -e PWNED ]] || fail "a file name can't run a command"
 [[ $output == *"not ok - no em dashes"* ]] || fail "a file named like a pipe is still scanned" "$output"
 pass "a file name can't run a command, and that file is still scanned"
@@ -316,9 +331,9 @@ expect_fail "a file name with a newline fails" "file names have no control chara
 # --- A base on a sibling line -----------------------------------------------
 
 # Upstream cuts 1.5.0 from before 1.0.0's last commit, beside it, and the fork
-# moves its base there as a merge with the tag's tree plus AgenTV's files. The
+# moves its base there as a merge with the tag's tree plus origaiTV's files. The
 # old line's own commits, em dash and all, are still in the fork's history,
-# but they're upstream's, not AgenTV's.
+# but they're upstream's, not origaiTV's.
 first=$(git rev-list --max-parents=0 HEAD)
 git switch -q --detach "$first"
 git commit -q --allow-empty -m "$(printf 'Upstream on the old line \xe2\x80\x94 not ours')"
@@ -333,37 +348,37 @@ git tag -f v1.0.0 "$old_line" >/dev/null
 git merge -q --no-edit -s ours -m "Merge Upstream 1.5.0, a sibling" v1.5.0
 printf 'v1.5.0\n' >.github/omarchy-base
 git commit -qam "Move the base to 1.5.0"
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "an earlier base's own commits aren't AgenTV's" "$output"
-pass "an earlier base's own commits aren't AgenTV's"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "an earlier base's own commits aren't origaiTV's" "$output"
+pass "an earlier base's own commits aren't origaiTV's"
 
-git commit -q --allow-empty -m "$(printf 'AgenTV on 1.5 \xe2\x80\x94 ours')"
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) && fail "AgenTV's commits on the new base are still scanned" "$output"
-[[ $output == *"not ok - no em dashes"* ]] || fail "AgenTV's commits on the new base are still scanned" "$output"
-pass "AgenTV's commits on the new base are still scanned"
+git commit -q --allow-empty -m "$(printf 'origaiTV on 1.5 \xe2\x80\x94 ours')"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) && fail "origaiTV's commits on the new base are still scanned" "$output"
+[[ $output == *"not ok - no em dashes"* ]] || fail "origaiTV's commits on the new base are still scanned" "$output"
+pass "origaiTV's commits on the new base are still scanned"
 
-# --- A repo of AgenTV's own has no Omarchy base ----------------------------
+# --- A repo of origaiTV's own has no Omarchy base ----------------------------
 
 own="$SANDBOX/own"
-mkdir -p "$own/bin" "$own/test/agentv/policy"
+mkdir -p "$own/bin" "$own/test/origaitv/policy"
 cd "$own"
 git init -q -b main
-git config user.name "AgenTV test"
+git config user.name "origaiTV test"
 git config user.email "test@example.invalid"
-git remote add origin "https://github.com/example-owner/agentv-pkgs.git"
-cp "$repo/bin/agentv-check" bin/
-cp "$repo"/test/agentv/policy/* test/agentv/policy/
+git remote add origin "https://github.com/example-owner/origaitv-pkgs.git"
+cp "$repo/bin/origaitv-check" bin/
+cp "$repo"/test/origaitv/policy/* test/origaitv/policy/
 printf 'Permission is hereby granted, free of charge, to any person\n' >LICENSE
-printf 'AgenTV packages. Powered by Omarchy.\n' >README.md
+printf 'origaiTV packages. Powered by Omarchy.\n' >README.md
 git add -A
-git commit -q -m "Start AgenTV's own repo"
+git commit -q -m "Start origaiTV's own repo"
 
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a repo with no Omarchy base passes" "$output"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) || fail "a repo with no Omarchy base passes" "$output"
 [[ $output == *"not a fork"* ]] || fail "a repo with no Omarchy base says so" "$output"
 pass "a repo with no Omarchy base passes, and says so"
 
 printf 'a pause \xe2\x80\x94 here\n' >>README.md
 git commit -qam "Edit the README"
-output=$(bin/agentv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) && fail "a repo with no base still gets every scan" "$output"
+output=$(bin/origaitv-check ${ci_flag[@]+"${ci_flag[@]}"} 2>&1) && fail "a repo with no base still gets every scan" "$output"
 [[ $output == *"not ok - no em dashes"* ]] || fail "a repo with no base still gets every scan" "$output"
 pass "a repo with no base still gets every scan"
 

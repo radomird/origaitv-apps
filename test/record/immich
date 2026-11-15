@@ -17,18 +17,18 @@ set -euo pipefail
 
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
 DIR="$ROOT/apps/immich/fixtures"
-VERSION=${AGENTV_IMMICH_VERSION:-v2.0.0}
-PORT=${AGENTV_IMMICH_PORT:-12283}
+VERSION=${ORIGAITV_IMMICH_VERSION:-v2.0.0}
+PORT=${ORIGAITV_IMMICH_PORT:-12283}
 BASE="http://127.0.0.1:$PORT"
 EMAIL=viewer@fixtures.test
 PASSWORD=fixture-password
 
 # ffmpeg from this machine, or else the one in Jellyfin's image, which has its
 # own: Ubuntu's mirror is sometimes too slow to install it in time.
-FFMPEG_IMAGE=${AGENTV_FFMPEG_IMAGE:-jellyfin/jellyfin:10.10.7}
+FFMPEG_IMAGE=${ORIGAITV_FFMPEG_IMAGE:-jellyfin/jellyfin:10.10.7}
 
 work=$(mktemp -d)
-project="agentv-immich-$$"
+project="origaitv-immich-$$"
 cleanup() {
   (cd "$work" && docker compose -p "$project" down -v >/dev/null 2>&1) || true
   # The containers' files are root's.
@@ -114,7 +114,7 @@ ids=()
 for n in 1 2 3; do
   ffmpeg -loglevel error -y -f lavfi -i "testsrc=size=640x480" -vf "hue=h=$((n * 100))" -frames:v 1 "$work/photo-$n.jpg"
   id=$(curl -fsS -X POST "$BASE/api/assets" -H "Authorization: Bearer $token" \
-    -F "assetData=@$work/photo-$n.jpg" -F "deviceAssetId=fixture-$n" -F "deviceId=agentv-fixtures" \
+    -F "assetData=@$work/photo-$n.jpg" -F "deviceAssetId=fixture-$n" -F "deviceId=origaitv-fixtures" \
     -F "fileCreatedAt=2026-10-2${n}T18:00:00.000Z" -F "fileModifiedAt=2026-10-2${n}T18:00:00.000Z" | jq -r .id)
   ids+=("$id")
 done

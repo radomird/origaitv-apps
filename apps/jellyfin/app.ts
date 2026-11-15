@@ -1,5 +1,5 @@
 // Jellyfin on the TV: your own Jellyfin server's web app, in the TV's
-// Chromium, signed in there through AgenTV's sign-in screen (ADR-032).
+// Chromium, signed in there through origaiTV's sign-in screen (ADR-032).
 //
 // The page keeps Jellyfin's sign-in, the way Jellyfin's web app always does.
 // This app reads the page's token to ask Jellyfin's API for what to show, and
@@ -7,7 +7,7 @@
 // something on another, and the page is one. So nothing here depends on how
 // Jellyfin lays out its pages, only on its API.
 
-import type { AppContext, Item, PlaybackState, TvApp } from "../../.agentv-os/apps/contract/contract.ts";
+import type { AppContext, Item, PlaybackState, TvApp } from "../../.origaitv-os/apps/contract/contract.ts";
 
 const ASK_MS = 10_000;
 const READ_MS = 5_000;
@@ -173,7 +173,7 @@ async function video(ctx: AppContext): Promise<{ position: number; duration: num
 }
 
 const app: TvApp = {
-  id: "agentv.jellyfin",
+  id: "origaitv.jellyfin",
 
   async launch(ctx) {
     await pageOf(ctx).goto(`${serverOf(ctx)}/web/`);

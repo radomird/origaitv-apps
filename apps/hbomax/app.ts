@@ -1,5 +1,5 @@
 // HBO Max on the TV, written by hand. It drives HBO Max's own site in the
-// TV's Chromium, where you sign in on AgenTV's sign-in screen.
+// TV's Chromium, where you sign in on origaiTV's sign-in screen.
 //
 // What it knows about HBO Max comes from HBO Max's pages as they were
 // captured from a signed-in session on my NUC, never from guesses. Those
@@ -24,7 +24,7 @@
 // reason, never a retry loop. It has no profiles: HBO Max opens on whichever
 // profile you pick on its own page.
 
-import type { AppContext, AppPage, Item, PlaybackState, TvApp } from "../../.agentv-os/apps/contract/contract.ts";
+import type { AppContext, AppPage, Item, PlaybackState, TvApp } from "../../.origaitv-os/apps/contract/contract.ts";
 
 const ORIGIN = "https://www.hbomax.com";
 const HOME = `${ORIGIN}/`;
@@ -172,7 +172,7 @@ function pressPlay(): boolean {
 // --- The app -------------------------------------------------------------------
 
 const app: TvApp = {
-  id: "agentv.hbomax",
+  id: "origaitv.hbomax",
 
   async launch(ctx) {
     await page(ctx).goto(HOME);

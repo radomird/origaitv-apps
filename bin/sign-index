@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Signs the index bin/index built, in <dir>, with AgenTV's key. That's all
+# Signs the index bin/index built, in <dir>, with origaiTV's key. That's all
 # it does: it needs gpg, and it fetches nothing, so the job that has the key
 # runs this and nothing else. bin/publish-index installs from the signed
 # index and publishes it afterwards, without the key.
 #
 # The key comes in AGENTV_SIGNING_KEY (the armored secret key), goes into a
 # keyring made for this run, and is out of the environment before anything
-# else happens. It has to be the one agentv-keyring trusts: <dir> has that
-# keyring's agentv-trusted, from agentv-pkgs.
+# else happens. It has to be the one origaitv-keyring trusts: <dir> has that
+# keyring's origaitv-trusted, from origaitv-pkgs.
 #
 # Usage: bin/sign-index <dir>   (needs AGENTV_SIGNING_KEY)
 
@@ -20,7 +20,7 @@ if [[ -z ${AGENTV_SIGNING_KEY:-} ]]; then
   echo "::error::AGENTV_SIGNING_KEY is empty. The index is only ever published signed." >&2
   exit 1
 fi
-for file in index.json agentv-trusted; do
+for file in index.json origaitv-trusted; do
   [[ -s $dir/$file ]] || { echo "::error::$dir has no $file" >&2; exit 1; }
 done
 
@@ -42,9 +42,9 @@ if (( ${#secret[@]} != 1 )); then
   exit 1
 fi
 fpr=${secret[0]}
-trusted=$(cut -d: -f1 "$dir/agentv-trusted" | head -n 1)
+trusted=$(cut -d: -f1 "$dir/origaitv-trusted" | head -n 1)
 if [[ $fpr != "$trusted" ]]; then
-  echo "::error::the signing key ($fpr) isn't the one agentv-keyring trusts ($trusted)" >&2
+  echo "::error::the signing key ($fpr) isn't the one origaitv-keyring trusts ($trusted)" >&2
   exit 1
 fi
 

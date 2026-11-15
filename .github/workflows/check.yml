@@ -1,11 +1,11 @@
 name: Check
 
 # Every pull request and every push to main (ADR-019, ADR-036): the fast gate
-# shared with AgenTV's other repos, the apps' types against the app contract,
-# the recorded replies, every app against its fixtures with agentv-os's own
-# contract runner, and an index built from the change that agentv-os's own
-# installer installs each app from. agentv-os is at the commit in
-# .github/agentv-os.
+# shared with origaiTV's other repos, the apps' types against the app contract,
+# the recorded replies, every app against its fixtures with origaitv-os's own
+# contract runner, and an index built from the change that origaitv-os's own
+# installer installs each app from. origaitv-os is at the commit in
+# .github/origaitv-os.
 
 on:
   pull_request:
@@ -43,10 +43,10 @@ jobs:
           sudo tar -xzf /tmp/gitleaks.tar.gz -C /usr/local/bin gitleaks
 
       - name: The fast gate
-        run: bin/agentv-check --ci
+        run: bin/origaitv-check --ci
 
       - name: The gate catches what it should
-        run: test/agentv/policy/check-test.sh --ci
+        run: test/origaitv/policy/check-test.sh --ci
 
   types:
     name: "Type checks"
@@ -56,7 +56,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Against the app contract in agentv-os
+      - name: Against the app contract in origaitv-os
         run: test/types
 
   index:
@@ -80,7 +80,7 @@ jobs:
         run: test/versions "$BASE"
       - name: Each app installs from a signed index, the way a box installs it
         run: test/index-test.sh
-      - name: The index is signed by AgenTV's key only, in a job that does nothing else
+      - name: The index is signed by origaiTV's key only, in a job that does nothing else
         run: test/sign-index-test.sh
 
   contract:

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "agentv.steam",
+  "id": "origaitv.steam",
   "name": "Steam",
-  "version": "1.0.1",
-  "author": "agentv",
+  "version": "1.0.2",
+  "author": "origaitv",
   "license": "MIT",
   "description": "Your Steam games, full screen",
   "kinds": ["tv-app"],
