@@ -5,6 +5,10 @@
       "file": "pages/start.html"
     },
     {
+      "url": "https://www.primevideo.com/region/eu/storefront",
+      "file": "pages/storefront.html"
+    },
+    {
       "url": "https://www.primevideo.com/offers/nonprimehomepage",
       "file": "pages/signed-out.html"
     },
@@ -376,7 +380,7 @@
       "throws": "Nothing is playing on Prime Video"
     },
     {
-      "name": "the d-pad: down from the menu goes to the search box, then the first result",
+      "name": "the d-pad: down lands on the menu, then the search box, then the first result",
       "id": "T9.1",
       "page": "https://www.primevideo.com/region/eu/search",
       "call": "search",
@@ -384,6 +388,7 @@
         "lantern"
       ],
       "remote": [
+        "down",
         "down",
         "down"
       ],
@@ -400,6 +405,7 @@
         "lantern"
       ],
       "remote": [
+        "down",
         "down",
         "down",
         "right"
@@ -419,6 +425,7 @@
       "remote": [
         "down",
         "down",
+        "down",
         "enter"
       ],
       "after": {
@@ -436,11 +443,66 @@
       "remote": [
         "down",
         "down",
+        "down",
         "enter",
         "back"
       ],
       "after": {
         "url": "/region/eu/search\\?phrase=lantern$"
+      }
+    },
+    {
+      "name": "the d-pad: down reaches the home page's last row, loading rows as it goes",
+      "id": "T21.1",
+      "page": "https://www.primevideo.com/region/eu/storefront",
+      "remote": [
+        "down",
+        "down",
+        "down",
+        "down",
+        "down",
+        "down",
+        "down",
+        "down",
+        "down",
+        "down"
+      ],
+      "after": {
+        "focused": "^Seven Bridges 6\\.1$"
+      }
+    },
+    {
+      "name": "the d-pad: right along a row slides it by the row's own arrow, to the row's last card",
+      "id": "T21.1",
+      "remote": [
+        "right",
+        "right",
+        "right",
+        "right",
+        "right",
+        "right",
+        "right",
+        "right",
+        "right",
+        "right",
+        "right",
+        "right",
+        "right",
+        "right"
+      ],
+      "after": {
+        "focused": "^Low Harbour 6\\.12$",
+        "title": "^Prime Video stand-in: row 6 at "
+      }
+    },
+    {
+      "name": "the d-pad: OK on a card opens its title",
+      "id": "T21.1",
+      "remote": [
+        "enter"
+      ],
+      "after": {
+        "url": "/detail/0LANTERNMOVIE00000000002\\?ref_=atv_hm_c_6_12$"
       }
     }
   ]

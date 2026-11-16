@@ -469,8 +469,7 @@
       "remote": [
         "down",
         "down",
-        "left",
-        "left",
+        "down",
         "enter"
       ],
       "after": {
@@ -478,19 +477,18 @@
       }
     },
     {
-      "name": "the d-pad: up from the episodes reaches the play button, then the links along the top",
+      "name": "the d-pad: up from the episodes reaches the season list, then the links along the top",
       "id": "T9.1",
       "page": "https://www.disneyplus.com/eu/browse/entity-5e1e5000-0000-4000-8000-000000000001",
       "remote": [
         "down",
         "down",
-        "left",
-        "left",
+        "down",
         "up",
         "up"
       ],
       "after": {
-        "focused": "^Home$"
+        "focused": "^Search$"
       }
     },
     {
@@ -500,8 +498,7 @@
       "remote": [
         "down",
         "down",
-        "left",
-        "left",
+        "down",
         "enter",
         "back"
       ],
