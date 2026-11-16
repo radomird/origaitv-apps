@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "origaitv.xboxcloud",
+  "name": "Xbox Cloud Gaming",
+  "version": "1.0.0",
+  "author": "origaitv",
+  "license": "MIT",
+  "description": "Xbox games streamed from the cloud",
+  "kinds": ["tv-app"],
+  "entryPoints": { "tvApp": "app.ts" },
+  "tv": {
+    "contract": 1,
+    "category": "games",
+    "runtime": "web",
+    "homeUrl": "https://www.xbox.com/play",
+    "capabilities": ["launch"],
+    "origins": ["https://www.xbox.com"],
+    "childSafe": false
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "checks": [
+    { "name": "launch has nothing to do in the app, and asks nothing: the box starts Moonlight from the manifest", "call": "launch" },
+    { "name": "it can only be launched: pairing with your PC and picking a game are Moonlight's own, on the TV", "call": "search", "args": ["racing"], "throws": "doesn't have search" }
+  ]
+}

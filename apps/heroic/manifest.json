@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "origaitv.heroic",
+  "name": "Heroic",
+  "version": "1.0.0",
+  "author": "origaitv",
+  "license": "MIT",
+  "description": "Your Epic, GOG and Amazon games. Needs a mouse and keyboard.",
+  "kinds": ["tv-app"],
+  "entryPoints": { "tvApp": "app.ts" },
+  "tv": {
+    "contract": 1,
+    "category": "games",
+    "runtime": "native",
+    "package": { "pacman": "heroic-games-launcher-bin" },
+    "exec": ["heroic"],
+    "capabilities": ["launch"],
+    "childSafe": false
+  }
+}

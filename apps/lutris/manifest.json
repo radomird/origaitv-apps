@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "origaitv.lutris",
+  "name": "Lutris",
+  "version": "1.0.0",
+  "author": "origaitv",
+  "license": "MIT",
+  "description": "Windows games from other stores. Needs a mouse and keyboard.",
+  "kinds": ["tv-app"],
+  "entryPoints": { "tvApp": "app.ts" },
+  "tv": {
+    "contract": 1,
+    "category": "games",
+    "runtime": "native",
+    "package": { "pacman": "lutris" },
+    "exec": ["lutris"],
+    "capabilities": ["launch"],
+    "childSafe": false
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "checks": [
+    { "name": "launch has nothing to do in the app, and asks nothing: the box starts Heroic from the manifest", "call": "launch" },
+    { "name": "it can only be launched: signing in to a store and installing games are Heroic's own, on the TV", "call": "search", "args": ["puzzle"], "throws": "doesn't have search" }
+  ]
+}
