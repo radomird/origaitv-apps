@@ -463,17 +463,15 @@
       }
     },
     {
-      "name": "the d-pad: on a series' page it reaches the episodes, and OK plays the one the ring is on",
+      "name": "the d-pad: on a series' page the first press lands on an episode, the biggest thing in view, and OK plays it",
       "id": "T9.1",
       "page": "https://www.disneyplus.com/eu/browse/entity-5e1e5000-0000-4000-8000-000000000001",
       "remote": [
         "down",
-        "down",
-        "down",
         "enter"
       ],
       "after": {
-        "url": "/eu/play/e9150de0-0000-4000-8000-000000000301$"
+        "url": "/eu/play/e9150de0-0000-4000-8000-000000000303$"
       }
     },
     {

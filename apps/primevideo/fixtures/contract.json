@@ -380,7 +380,7 @@
       "throws": "Nothing is playing on Prime Video"
     },
     {
-      "name": "the d-pad: down lands on the menu, then the search box, then the first result",
+      "name": "the d-pad: the first press lands on a result, the biggest thing in view",
       "id": "T9.1",
       "page": "https://www.primevideo.com/region/eu/search",
       "call": "search",
@@ -388,16 +388,14 @@
         "lantern"
       ],
       "remote": [
-        "down",
-        "down",
         "down"
       ],
       "after": {
-        "focused": "^Lantern Bay$"
+        "focused": "^Lanterns$"
       }
     },
     {
-      "name": "the d-pad: right moves along the results",
+      "name": "the d-pad: left moves along the results",
       "id": "T9.1",
       "page": "https://www.primevideo.com/region/eu/search",
       "call": "search",
@@ -406,9 +404,7 @@
       ],
       "remote": [
         "down",
-        "down",
-        "down",
-        "right"
+        "left"
       ],
       "after": {
         "focused": "^Lantern Bay: The Movie$"
@@ -424,8 +420,8 @@
       ],
       "remote": [
         "down",
-        "down",
-        "down",
+        "left",
+        "left",
         "enter"
       ],
       "after": {
@@ -442,8 +438,8 @@
       ],
       "remote": [
         "down",
-        "down",
-        "down",
+        "left",
+        "left",
         "enter",
         "back"
       ],
@@ -468,7 +464,7 @@
         "down"
       ],
       "after": {
-        "focused": "^Seven Bridges 6\\.1$"
+        "focused": "^The Long Field 6\\.3$"
       }
     },
     {
