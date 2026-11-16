@@ -37,7 +37,7 @@ The other nine are for games, one for each game platform Omarchy has:
 
 Minecraft, Lutris, Heroic and Battle.net are made for a computer, so you'll need a mouse and keyboard for them.
 
-You add a game app in _Settings_, or from _Add an app_ in _Apps_. Adding one installs it. Removing one leaves your games and saves where they are.
+You add a game in _Settings_, under _Home and apps_, then _Games_, or from _Add an app_ in _Apps_. Adding one installs it, and you can add a few at once. Removing one leaves your games and saves where they are.
 
 ## Your passwords stay yours
 
