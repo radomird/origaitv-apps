@@ -1,0 +1,6 @@
+{
+  "checks": [
+    { "name": "launch has nothing to do in the app, and asks nothing: the box starts GeForce NOW's flatpak from the manifest", "call": "launch" },
+    { "name": "it can only be launched: signing in, the library and the games are GeForce NOW's own, on the TV", "call": "search", "args": ["racing"], "throws": "doesn't have search" }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "origaitv.battlenet",
+  "name": "Battle.net",
+  "version": "1.0.0",
+  "author": "origaitv",
+  "license": "MIT",
+  "description": "Blizzard's games. Needs a mouse and keyboard.",
+  "kinds": ["tv-app"],
+  "entryPoints": { "tvApp": "app.ts" },
+  "tv": {
+    "contract": 1,
+    "category": "games",
+    "runtime": "native",
+    "package": { "pacman": "umu-launcher" },
+    "exec": ["origaitv-battlenet"],
+    "icon": "icon.png",
+    "capabilities": ["launch"],
+    "childSafe": false
+  }
+}
