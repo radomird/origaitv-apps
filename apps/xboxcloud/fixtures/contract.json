@@ -1,0 +1,14 @@
+{
+  "routes": [
+    { "url": "https://www.xbox.com/play", "file": "pages/play.html" }
+  ],
+  "checks": [
+    {
+      "name": "launch takes its page to Xbox Cloud Gaming",
+      "page": "https://www.xbox.com/play?from=elsewhere",
+      "call": "launch",
+      "after": { "url": "^https://www\\.xbox\\.com/play$" }
+    },
+    { "name": "it can only be launched: searching, signing in and the games are the site's own, on the TV", "call": "search", "args": ["racing"], "throws": "doesn't have search" }
+  ]
+}

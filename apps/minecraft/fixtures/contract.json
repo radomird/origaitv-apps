@@ -1,0 +1,6 @@
+{
+  "checks": [
+    { "name": "launch has nothing to do in the app, and asks nothing: the box starts Minecraft's launcher from the manifest", "call": "launch" },
+    { "name": "it can only be launched: signing in and the game are Minecraft's own, on the TV", "call": "search", "args": ["survival"], "throws": "doesn't have search" }
+  ]
+}

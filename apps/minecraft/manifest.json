@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "origaitv.minecraft",
+  "name": "Minecraft",
+  "version": "1.0.0",
+  "author": "origaitv",
+  "license": "MIT",
+  "description": "Minecraft's own launcher. Needs a mouse and keyboard.",
+  "kinds": ["tv-app"],
+  "entryPoints": { "tvApp": "app.ts" },
+  "tv": {
+    "contract": 1,
+    "category": "games",
+    "runtime": "native",
+    "package": { "pacman": "minecraft-launcher" },
+    "exec": ["minecraft-launcher"],
+    "capabilities": ["launch"],
+    "childSafe": false
+  }
+}

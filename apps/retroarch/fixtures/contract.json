@@ -1,0 +1,6 @@
+{
+  "checks": [
+    { "name": "launch has nothing to do in the app, and asks nothing: the box starts RetroArch from the manifest", "call": "launch" },
+    { "name": "it can only be launched: your games, cores and settings are RetroArch's own, on the TV", "call": "search", "args": ["platformer"], "throws": "doesn't have search" }
+  ]
+}

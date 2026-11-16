@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "origaitv.retroarch",
+  "name": "RetroArch",
+  "version": "1.0.0",
+  "author": "origaitv",
+  "license": "MIT",
+  "description": "Classic consoles, from your own games",
+  "kinds": ["tv-app"],
+  "entryPoints": { "tvApp": "app.ts" },
+  "tv": {
+    "contract": 1,
+    "category": "games",
+    "runtime": "native",
+    "package": { "pacman": "retroarch" },
+    "exec": ["retroarch", "--fullscreen"],
+    "capabilities": ["launch"],
+    "childSafe": false
+  }
+}
