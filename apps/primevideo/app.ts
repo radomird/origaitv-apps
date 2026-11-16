@@ -21,6 +21,12 @@
 //   episode can start with a short video (an ad or a recap), so the
 //   programme is the page's longest video.
 //
+// - Prime Video's home page draws its rows as a list of cards between a
+//   left and a right arrow, which slide the row. That's where the d-pad's
+//   hints come from. The capture has no styles or scripts, so how far an
+//   arrow slides, and that the arrows show only under a pointer, are what
+//   the stand-in home page does, and the NUC's checks try the real one.
+//
 // Not checked against a captured page: search's results. The capture saved
 // the storefront rather than the results, so this reads results the way the
 // storefront's cards are drawn, each an <article data-testid=card> with
@@ -192,6 +198,26 @@ function episodeLink(episode: number): string | null {
 
 const app: TvApp = {
   id: "origaitv.primevideo",
+
+  // Help for your phone's d-pad on Prime Video's pages. The TV's d-pad finds
+  // the cards by itself. What it can't tell is that a row of cards slides by
+  // its own arrows: <div data-testid=navigation-carousel-wrapper>, with a
+  // left-arrow and a right-arrow, each data-disabled="true" at its end.
+  // Along a row, the d-pad presses its arrow and lands on the card that
+  // comes into sight, so the row slides the way Prime Video slides it. The
+  // arrows show only under a pointer, so the d-pad never lands on them.
+  navigation: [
+    {
+      skip: "[data-testid=left-arrow], [data-testid=right-arrow]",
+      rows: [
+        {
+          row: "[data-testid=navigation-carousel-wrapper]",
+          next: "[data-testid=right-arrow]:not([data-disabled=true])",
+          previous: "[data-testid=left-arrow]:not([data-disabled=true])",
+        },
+      ],
+    },
+  ],
 
   async launch(ctx) {
     await page(ctx).goto(HOME);
