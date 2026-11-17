@@ -92,5 +92,3 @@ A streaming service changes its pages now and then, and an app here can stop fin
 ## License
 
 MIT, like Omarchy. OrigaiTV isn't made or endorsed by the Omarchy project.
-
-Battle.net's icon comes from Omarchy, which is MIT too (copyright David Heinemeier Hansson).
