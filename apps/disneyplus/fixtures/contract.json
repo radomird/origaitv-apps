@@ -300,7 +300,8 @@
         "episode": 1,
         "position": 9,
         "duration": 494,
-        "playing": true
+        "playing": true,
+        "hasNext": true
       }
     },
     {
@@ -328,7 +329,8 @@
         "episode": 3,
         "position": 120,
         "duration": 501,
-        "playing": true
+        "playing": true,
+        "hasNext": false
       }
     },
     {
@@ -340,7 +342,8 @@
         "title": "Kite Weather",
         "position": 2,
         "duration": 6710,
-        "playing": true
+        "playing": true,
+        "hasNext": false
       }
     },
     {
@@ -356,6 +359,62 @@
       "page": "https://www.disneyplus.com/eu/browse/entity-5e1e5000-0000-4000-8000-000000000001",
       "call": "playback.readPlaybackState",
       "expect": null
+    },
+    {
+      "name": "seek sets the video's clock so the timeline lands on the place, though the two run apart",
+      "id": "T27.2",
+      "page": "https://www.disneyplus.com/eu/play/e9150de0-0000-4000-8000-000000000301",
+      "call": "playback.seek",
+      "args": [
+        100
+      ],
+      "after": {
+        "title": " at 100 s$"
+      }
+    },
+    {
+      "name": "seek goes by how the clocks lined up when the controls last showed, when they're hidden",
+      "id": "T27.2",
+      "page": "https://www.disneyplus.com/eu/play/e9150de0-0000-4000-8000-000000000303",
+      "call": "playback.seek",
+      "args": [
+        300
+      ],
+      "after": {
+        "title": " at 300 s$"
+      }
+    },
+    {
+      "name": "a place past the end stops at the end",
+      "id": "T27.2",
+      "page": "https://www.disneyplus.com/eu/play/e9150de0-0000-4000-8000-000000000301",
+      "call": "playback.seek",
+      "args": [
+        9999
+      ],
+      "after": {
+        "title": " at 494 s$"
+      }
+    },
+    {
+      "name": "seek says so when it can't tell what's playing",
+      "id": "T27.2",
+      "page": "https://www.disneyplus.com/eu/play/e9150de0-0000-4000-8000-000000000302",
+      "call": "playback.seek",
+      "args": [
+        100
+      ],
+      "throws": "Couldn't tell what's playing on Disney\\+"
+    },
+    {
+      "name": "seek off the player says nothing is playing",
+      "id": "T27.2",
+      "page": "https://www.disneyplus.com/eu/browse/search",
+      "call": "playback.seek",
+      "args": [
+        100
+      ],
+      "throws": "Nothing is playing on Disney\\+"
     },
     {
       "name": "next presses the controls' PLAY NEXT, and waits for the next episode",
