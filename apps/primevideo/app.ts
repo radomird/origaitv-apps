@@ -341,9 +341,10 @@ const app: TvApp = {
     },
 
     // A jump to a place, in seconds from the start, on the programme's own
-    // clock. It isn't the player's own control: the pages I saved don't
-    // show how its timeline takes a press. They don't show a way to the
-    // episode before either, so there's no previous here.
+    // clock. It isn't the player's own control: what's written above about
+    // the player doesn't say how its timeline takes a press, and this
+    // doesn't guess. Nor does it name a way to the episode before, so
+    // there's no previous here.
     async seek(ctx, seconds) {
       const p = page(ctx);
       if (!playing(here(p))) throw new Error("Nothing is playing on Prime Video");

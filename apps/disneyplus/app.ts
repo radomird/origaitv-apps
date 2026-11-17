@@ -424,9 +424,10 @@ const app: TvApp = {
     // A jump to a place on the timeline, in seconds. The video's own clock
     // runs apart from the timeline's, by what the controls said when they
     // last showed, so the clock is set to the place with that added. It
-    // isn't the player's own control: the pages I saved don't show how its
-    // timeline takes a press. They don't show a way to the episode before
-    // either, so there's no previous here.
+    // isn't the player's own control: what's written above about the player
+    // doesn't say how its timeline takes a press, and this doesn't guess.
+    // Nor does it name a way to the episode before, so there's no previous
+    // here.
     async seek(ctx, seconds) {
       const p = page(ctx);
       if (!PLAYING.test(here(p).pathname)) throw new Error("Nothing is playing on Disney+");
