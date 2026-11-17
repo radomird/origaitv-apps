@@ -74,6 +74,7 @@ interface Player {
   time: number | null;
   duration: number | null;
   paused: boolean | null;
+  next: boolean;
 }
 
 // The player as it is: its video, and what its controls say, shown or not.
@@ -87,7 +88,24 @@ function player(): Player {
     time: video ? video.currentTime : null,
     duration: max > 0 ? max : video && Number.isFinite(video.duration) ? video.duration : null,
     paused: video ? video.paused : null,
+    next: !!document.querySelector('[data-testid="player-ux-up-next-button"]'),
   };
+}
+
+// The video's own clock, set to a place inside the timeline's length. The
+// clock is the position here, so that's the whole jump. Null once the video
+// says it's there, or a reason.
+async function jump(seconds: number): Promise<string | null> {
+  const video = document.querySelector<HTMLVideoElement>('video[data-testid="VideoElement"]');
+  if (!video) return "Nothing is playing on HBO Max";
+  const max = Number(document.querySelector('[data-testid="player-ux-scrubber-position"]')?.getAttribute("aria-valuemax"));
+  const end = max > 0 ? max : Number.isFinite(video.duration) ? video.duration : null;
+  if (end === null) return "Couldn't jump there on HBO Max";
+  const to = Math.min(Math.max(0, seconds), end);
+  video.currentTime = to;
+  const there = () => !video.seeking && video.currentTime > to - 1 && video.currentTime < to + 4;
+  for (let i = 0; i < 30 && !there(); i++) await new Promise((resolve) => setTimeout(resolve, 100));
+  return there() ? null : "Couldn't jump there on HBO Max";
 }
 
 // The player's own play and pause button, pressed when the video isn't the
@@ -278,7 +296,20 @@ const app: TvApp = {
         position: Math.min(Math.max(0, Math.round((now.time ?? 0) * 10) / 10), now.duration),
         duration: now.duration,
         playing: now.paused === false,
+        // Next Episode is only there near an episode's end.
+        hasNext: now.next,
       };
+    },
+
+    // A jump to a place, in seconds from the start, on the video's own
+    // clock. It isn't the player's own control: the pages I saved don't
+    // show how its timeline takes a press. They don't show a way to the
+    // episode before either, so there's no previous here.
+    async seek(ctx, seconds) {
+      const p = page(ctx);
+      if (!PLAYING.test(here(p).pathname)) throw new Error("Nothing is playing on HBO Max");
+      const why = await p.evaluate(jump, seconds);
+      if (why) throw new Error(why);
     },
 
     // The player's Next Episode, which HBO Max shows near an episode's end.

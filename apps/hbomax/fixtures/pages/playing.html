@@ -20,11 +20,19 @@
   </div>
   <script>
     // The video has no picture, so it has no clock of its own either. It
-    // plays and pauses like any other, and its clock says 40.34 s.
+    // plays and pauses like any other, and its clock says 40.34 s. Set the
+    // clock and it goes there, and the page's title says where, so a check
+    // can see a jump.
     const shown = {"title": "Lantern Bay", "numbers": "S1 E2:", "subtitle": "The Nets", "max": "1397.40", "time": 40.34, "next": ""};
     const video = document.querySelector("video");
     video.title = shown.title;
-    Object.defineProperty(video, "currentTime", { get: () => shown.time });
+    Object.defineProperty(video, "currentTime", {
+      get: () => shown.time,
+      set: (to) => {
+        shown.time = to;
+        document.title = `HBO Max stand-in: ${shown.title} at ${to} s`;
+      },
+    });
     if (!location.search.includes("paused")) video.play().catch(() => {});
     if (!location.search.includes("loading")) {
       const controls = document.createElement("div");
