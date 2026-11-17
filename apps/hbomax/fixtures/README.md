@@ -15,7 +15,7 @@ They aren't copies of HBO Max's pages, and the titles in them are made up. The a
 A few of the stand-ins do a little in a script, the way HBO Max's pages do:
 
 - The sign-in form draws its fields inside two shadow roots.
-- The player plays and pauses its video, and Next Episode goes to the next one. The video has no picture, so the stand-in gives its clock a value.
+- The player plays and pauses its video, and Next Episode goes to the next one. The video has no picture, so the stand-in gives its clock a value. On the episode's page the clock also goes where it's set, and the page's title then says where, so a check can see a jump land.
 - At `?fixture=paused` the video starts paused, and at `?fixture=loading` the player hasn't drawn its controls yet.
 
 The d-pad checks press your phone's arrows, OK and Back in those pages, as they'd reach them on your TV, and look at where the focus lands.

@@ -21,6 +21,21 @@
     const video = document.querySelector("video");
     video.play().catch(() => {});
 
+    // Its clock goes where it's set, though, and the timeline moves by as
+    // far, since the two run apart, as Disney+'s do. The page's title then
+    // says where the timeline is, so a check can see a jump land.
+    let clock = 0;
+    let timeline = null;
+    Object.defineProperty(video, "currentTime", {
+      get: () => clock,
+      set: (to) => {
+        controls.now += to - clock;
+        clock = to;
+        timeline?.setAttribute("aria-valuenow", controls.now);
+        document.title = `Disney+ stand-in: an episode at ${controls.now} s`;
+      },
+    });
+
     // The controls, each in a shadow root of its own, inside the overlay's,
     // the way Disney+'s player draws them.
     const controls = { title: "Paper Boats", subtitle: "S3:E3 The Map", now: 120, max: 501, next: null };
@@ -49,7 +64,7 @@
       video.addEventListener("play", label);
       video.addEventListener("pause", label);
       toggle.addEventListener("click", () => (video.paused ? video.play().catch(() => {}) : video.pause()));
-      const timeline = part(root, "progress-bar", '<div role="slider" aria-label="Timeline" aria-valuemin="0" data-qa="progress-bar.seekableRange"></div>').firstChild;
+      timeline = part(root, "progress-bar", '<div role="slider" aria-label="Timeline" aria-valuemin="0" data-qa="progress-bar.seekableRange"></div>').firstChild;
       timeline.setAttribute("aria-valuemax", controls.max);
       timeline.setAttribute("aria-valuenow", controls.now);
       if (controls.next) {

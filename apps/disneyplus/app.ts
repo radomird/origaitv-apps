@@ -91,6 +91,7 @@ interface Player {
   subtitle: string | null;
   now: number | null;
   max: number | null;
+  next: boolean;
 }
 
 // The player as it is: its video, and what its controls say when they show.
@@ -131,7 +132,28 @@ async function player(wake: boolean): Promise<Player> {
     subtitle: text('[data-qa="title-bug.subtitle"]'),
     now: number("aria-valuenow"),
     max: number("aria-valuemax"),
+    next: deep(document, '[data-qa="play-next.button-container"]').length > 0,
   };
+}
+
+// The video's own clock, set to a place on it. Null once the video says
+// it's there, or a reason.
+async function jump(to: number): Promise<string | null> {
+  const deep = (root: Document | ShadowRoot, selector: string, out: Element[] = []): Element[] => {
+    out.push(...root.querySelectorAll(selector));
+    for (const el of root.querySelectorAll("*")) if (el.shadowRoot) deep(el.shadowRoot, selector, out);
+    return out;
+  };
+  const area = (el: Element) => {
+    const box = el.getBoundingClientRect();
+    return box.width * box.height;
+  };
+  const video = (deep(document, "video") as HTMLVideoElement[]).sort((a, b) => area(b) - area(a))[0];
+  if (!video) return "Nothing is playing on Disney+";
+  video.currentTime = to;
+  const there = () => !video.seeking && video.currentTime > to - 1 && video.currentTime < to + 4;
+  for (let i = 0; i < 30 && !there(); i++) await new Promise((resolve) => setTimeout(resolve, 100));
+  return there() ? null : "Couldn't jump there on Disney+";
 }
 
 // The controls' PLAY NEXT, clicked, after showing the controls the same way.
@@ -267,10 +289,11 @@ async function pickSeason(season: number): Promise<string | null> {
 // --- The app -------------------------------------------------------------------
 
 // What the controls said about what's playing, while they showed: its
-// title, season and episode, and how the video's own clock lines up with
-// the timeline. Kept for the video it was read from, so the controls aren't
-// shown over the picture every time it's asked.
-let learned: { key: string; title: string; season?: number; episode?: number; offset: number; duration: number; at: number } | null = null;
+// title, season and episode, how the video's own clock lines up with the
+// timeline, and whether PLAY NEXT was among them. Kept for the video it was
+// read from, so the controls aren't shown over the picture every time it's
+// asked.
+let learned: { key: string; title: string; season?: number; episode?: number; offset: number; duration: number; next: boolean; at: number } | null = null;
 
 const app: TvApp = {
   id: "origaitv.disneyplus",
@@ -382,6 +405,7 @@ const app: TvApp = {
           ...(numbers ? { season: Number(numbers[1]), episode: Number(numbers[2]) } : {}),
           offset: (now.time ?? 0) - now.now,
           duration: now.max,
+          next: now.next,
           at: Date.now(),
         };
       }
@@ -393,7 +417,27 @@ const app: TvApp = {
         position: Math.min(Math.max(0, position), learned.duration),
         duration: learned.duration,
         playing: now.paused === false,
+        hasNext: learned.next,
       };
+    },
+
+    // A jump to a place on the timeline, in seconds. The video's own clock
+    // runs apart from the timeline's, by what the controls said when they
+    // last showed, so the clock is set to the place with that added. It
+    // isn't the player's own control: what's written above about the player
+    // doesn't say how its timeline takes a press, and this doesn't guess.
+    // Nor does it name a way to the episode before, so there's no previous
+    // here.
+    async seek(ctx, seconds) {
+      const p = page(ctx);
+      if (!PLAYING.test(here(p).pathname)) throw new Error("Nothing is playing on Disney+");
+      // Reading what's playing learns how the two clocks line up, showing
+      // the controls for it if it has to.
+      await app.playback!.readPlaybackState(ctx);
+      if (!learned) throw new Error("Couldn't tell what's playing on Disney+");
+      const place = Math.min(Math.max(0, seconds), learned.duration);
+      const why = await p.evaluate(jump, Math.max(0, place + learned.offset));
+      if (why) throw new Error(why);
     },
 
     // The controls' PLAY NEXT. Resolves once the player has moved on.

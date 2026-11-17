@@ -17,7 +17,7 @@ One part isn't from a saved page: search's results. Prime Video's results page w
 A few of the stand-ins do a little in a script, the way Prime Video's pages do:
 
 - The player shows its controls only after a pointer move over the picture.
-- It has two videos, a short one first, as an episode can start with, then the programme. They have no picture, so the stand-in gives each a clock and a length.
+- It has two videos, a short one first, as an episode can start with, then the programme. They have no picture, so the stand-in gives each a clock and a length. On the episode's page a clock also goes where it's set, and the page's title then says which video went where, so a check can see a jump land on the programme.
 - Play and pause work, and Next Episode goes to the next one. At `&fixture=paused` the programme starts paused.
 - On the home page, a row's arrows slide it on by the cards in sight, and they show only under a pointer. More rows load as you near the end. The saved home page has no styles or scripts, so this part is mine, and the NUC's checks try the real page.
 

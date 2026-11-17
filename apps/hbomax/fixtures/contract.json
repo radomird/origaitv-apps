@@ -361,7 +361,8 @@
         "episode": 2,
         "position": 40.3,
         "duration": 1397.4,
-        "playing": true
+        "playing": true,
+        "hasNext": false
       }
     },
     {
@@ -385,7 +386,8 @@
         "title": "Lantern Bay: The Movie",
         "position": 1774.7,
         "duration": 6710,
-        "playing": true
+        "playing": true,
+        "hasNext": false
       }
     },
     {
@@ -401,6 +403,62 @@
       "page": "https://www.hbomax.com/show/1a7e0000-0000-4000-8000-000000000001",
       "call": "playback.readPlaybackState",
       "expect": null
+    },
+    {
+      "name": "near the end, with Next Episode in the player, it says there's a next",
+      "id": "T27.2",
+      "page": "https://www.hbomax.com/video/watch/e9150de0-0000-4000-8000-000000000103",
+      "call": "playback.readPlaybackState",
+      "expect": {
+        "title": "Lantern Bay",
+        "season": 1,
+        "episode": 3,
+        "hasNext": true
+      }
+    },
+    {
+      "name": "seek sets the video's clock to the place",
+      "id": "T27.2",
+      "page": "https://www.hbomax.com/video/watch/e9150de0-0000-4000-8000-000000000102",
+      "call": "playback.seek",
+      "args": [
+        754
+      ],
+      "after": {
+        "title": "Lantern Bay at 754 s$"
+      }
+    },
+    {
+      "name": "a place past the end stops at the timeline's end",
+      "id": "T27.2",
+      "page": "https://www.hbomax.com/video/watch/e9150de0-0000-4000-8000-000000000102",
+      "call": "playback.seek",
+      "args": [
+        9999
+      ],
+      "after": {
+        "title": " at 1397\\.4 s$"
+      }
+    },
+    {
+      "name": "seek says so before the controls are drawn",
+      "id": "T27.2",
+      "page": "https://www.hbomax.com/video/watch/e9150de0-0000-4000-8000-000000000102?fixture=loading",
+      "call": "playback.seek",
+      "args": [
+        754
+      ],
+      "throws": "Couldn't jump there on HBO Max"
+    },
+    {
+      "name": "seek off the player says nothing is playing",
+      "id": "T27.2",
+      "page": "https://www.hbomax.com/search",
+      "call": "playback.seek",
+      "args": [
+        754
+      ],
+      "throws": "Nothing is playing on HBO Max"
     },
     {
       "name": "next presses Next Episode near the end, and waits for it",
