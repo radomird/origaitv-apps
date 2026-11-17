@@ -299,7 +299,8 @@
         "episode": 2,
         "position": 1098.8,
         "duration": 3203,
-        "playing": true
+        "playing": true,
+        "hasNext": true
       }
     },
     {
@@ -321,7 +322,8 @@
         "title": "Lantern Bay: The Movie",
         "position": 242.3,
         "duration": 10722,
-        "playing": true
+        "playing": true,
+        "hasNext": false
       }
     },
     {
@@ -330,6 +332,40 @@
       "page": "https://www.primevideo.com/region/eu/detail/0LANTERNBAYS1000000000001",
       "call": "playback.readPlaybackState",
       "expect": null
+    },
+    {
+      "name": "seek sets the programme's clock to the place, not the short video's before it",
+      "id": "T27.2",
+      "page": "https://www.primevideo.com/region/eu/detail/0LBS1E2000000000000000102?autoplay=1&t=0",
+      "call": "playback.seek",
+      "args": [
+        754
+      ],
+      "after": {
+        "title": "Lantern Bay at 754 s$"
+      }
+    },
+    {
+      "name": "a place past the end stops at the programme's end",
+      "id": "T27.2",
+      "page": "https://www.primevideo.com/region/eu/detail/0LBS1E2000000000000000102?autoplay=1&t=0",
+      "call": "playback.seek",
+      "args": [
+        99999
+      ],
+      "after": {
+        "title": "Lantern Bay at 3203 s$"
+      }
+    },
+    {
+      "name": "seek on a title's page without the player says nothing is playing",
+      "id": "T27.2",
+      "page": "https://www.primevideo.com/region/eu/detail/0LANTERNBAYS1000000000001",
+      "call": "playback.seek",
+      "args": [
+        754
+      ],
+      "throws": "Nothing is playing on Prime Video"
     },
     {
       "name": "next presses Next Episode, and waits for it",

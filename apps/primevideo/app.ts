@@ -98,6 +98,7 @@ interface Player {
   time: number | null;
   duration: number | null;
   paused: boolean | null;
+  next: boolean;
 }
 
 // The player as it is. With wake, a pointer move over the picture shows its
@@ -119,7 +120,23 @@ async function player(wake: boolean): Promise<Player> {
     time: video ? video.currentTime : null,
     duration: video ? video.duration : null,
     paused: video ? video.paused : null,
+    next: !!document.querySelector("#atvwebplayersdk-next-episode-button"),
   };
+}
+
+// The programme's own clock, set to a place inside its length. The page can
+// hold a short video too, an ad or a recap, so it's the longest one that
+// jumps, the same one the position is read from. Null once that video says
+// it's there, or a reason.
+async function jump(seconds: number): Promise<string | null> {
+  const videos = [...document.querySelectorAll("video")].filter((v) => Number.isFinite(v.duration) && v.duration > 0);
+  const video = videos.sort((a, b) => b.duration - a.duration)[0];
+  if (!video) return "Nothing is playing on Prime Video";
+  const to = Math.min(Math.max(0, seconds), video.duration);
+  video.currentTime = to;
+  const there = () => !video.seeking && video.currentTime > to - 1 && video.currentTime < to + 4;
+  for (let i = 0; i < 30 && !there(); i++) await new Promise((resolve) => setTimeout(resolve, 100));
+  return there() ? null : "Couldn't jump there on Prime Video";
 }
 
 // One of the player's own controls, pressed after showing them the same way.
@@ -318,7 +335,20 @@ const app: TvApp = {
         position: Math.min(Math.max(0, Math.round((now.time ?? 0) * 10) / 10), now.duration),
         duration: now.duration,
         playing: now.paused === false,
+        // Next Episode is among the controls only when there is one.
+        hasNext: now.next,
       };
+    },
+
+    // A jump to a place, in seconds from the start, on the programme's own
+    // clock. It isn't the player's own control: the pages I saved don't
+    // show how its timeline takes a press. They don't show a way to the
+    // episode before either, so there's no previous here.
+    async seek(ctx, seconds) {
+      const p = page(ctx);
+      if (!playing(here(p))) throw new Error("Nothing is playing on Prime Video");
+      const why = await p.evaluate(jump, seconds);
+      if (why) throw new Error(why);
     },
 
     // The player's Next Episode. Resolves once the page has moved on.
