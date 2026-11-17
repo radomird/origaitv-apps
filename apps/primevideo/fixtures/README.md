@@ -7,7 +7,8 @@ Prime Video has no server you can run, so there's nothing to record. The pages i
 - Sign Out in the menu when you're signed in, and Sign In when you're not;
 - search's results, as cards;
 - a series' page at two seasons, with the season list, its episodes and its play button, and a film's page;
-- the player over a title's page: its title, season and episode, play and pause, and Next Episode.
+- the player over a title's page: its title, season and episode, play and pause, and Next Episode;
+- the home page's rows, each a list of cards between a left and a right arrow, for the d-pad.
 
 They aren't copies of Prime Video's pages, and the titles in them are made up. The app itself is written against Prime Video's real pages, saved from my own signed-in session on my NUC. Those stay private.
 
@@ -18,5 +19,6 @@ A few of the stand-ins do a little in a script, the way Prime Video's pages do:
 - The player shows its controls only after a pointer move over the picture.
 - It has two videos, a short one first, as an episode can start with, then the programme. They have no picture, so the stand-in gives each a clock and a length.
 - Play and pause work, and Next Episode goes to the next one. At `&fixture=paused` the programme starts paused.
+- On the home page, a row's arrows slide it on by the cards in sight, and they show only under a pointer. More rows load as you near the end. The saved home page has no styles or scripts, so this part is mine, and the NUC's checks try the real page.
 
-The d-pad checks press your phone's arrows, OK and Back in those pages, as they'd reach them on your TV, and look at where the focus lands.
+The d-pad checks press your phone's arrows, OK and Back in those pages, as they'd reach them on your TV, and look at where the focus lands. On the home page they go down to the last row, along a row past what's in sight, and open a card.
