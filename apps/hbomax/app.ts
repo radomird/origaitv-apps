@@ -194,7 +194,8 @@ function pressPlay(): boolean {
 // It runs in the page as HBO Max draws it: now, and again as the page
 // changes, for up to 30 s, since the banner comes a moment after the page.
 // It presses only a button whose whole label is one of those words, inside
-// the banner that says those words, so it never presses anything else.
+// a banner that says those words: the button's nearest dialog or box fixed
+// over the page. So a Decline anywhere else on the page is never pressed.
 // Once they're turned down, HBO Max keeps the choice in its own cookie and
 // doesn't ask again. The banner's words are the ones it showed on my NUC on 2026-11-22.
 function turnDownCookies(words: { banner: string; reject: string }): boolean {
@@ -205,11 +206,13 @@ function turnDownCookies(words: { banner: string; reject: string }): boolean {
   const press = (): boolean => {
     for (const button of document.querySelectorAll<HTMLElement>("button, a, [role=button]")) {
       if (!button.getClientRects().length || !reject.test(plain(button.innerText || button.textContent || ""))) continue;
-      for (let box = button.parentElement; box && box !== document.body; box = box.parentElement) {
-        if (!banner.test(box.innerText || "")) continue;
-        button.click();
-        return true;
-      }
+      // The banner is the button's nearest dialog or fixed box: a banner
+      // sits over the page. Only its own words count, never the page's.
+      let box = button.parentElement;
+      while (box && box !== document.body && !box.matches("dialog, [role=dialog], [role=alertdialog], [aria-modal=true]") && !/^(fixed|sticky)$/.test(getComputedStyle(box).position)) box = box.parentElement;
+      if (!box || box === document.body || !banner.test(box.innerText || "")) continue;
+      button.click();
+      return true;
     }
     return false;
   };
@@ -258,6 +261,9 @@ const app: TvApp = {
   signIn: {
     async isSignedIn(ctx) {
       const p = page(ctx);
+      // Asked every 2 s during a sign-in, so a banner on a page the site
+      // sent the TV on to is turned down too.
+      await cookies(p);
       const url = here(p);
       if (url.origin !== ORIGIN || url.pathname.startsWith("/auth/")) return false;
       // Only someone signed in gets the player.

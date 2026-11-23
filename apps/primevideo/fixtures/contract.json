@@ -94,13 +94,13 @@
       }
     },
     {
-      "name": "signIn.open declines Prime Video's non-essential cookies first, since the banner covers Sign In",
+      "name": "signIn.open declines Prime Video's non-essential cookies first, in the banner, never the page's own Decline",
       "id": "T30.11",
       "page": "https://www.primevideo.com/offers/nonprimehomepage",
       "call": "signIn.open",
       "after": {
         "url": "/auth-redirect/stand-in$",
-        "title": "cookies turned down$"
+        "title": "^[^,]*, cookies turned down$"
       }
     },
     {
