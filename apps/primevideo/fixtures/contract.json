@@ -94,6 +94,16 @@
       }
     },
     {
+      "name": "signIn.open declines Prime Video's non-essential cookies first, since the banner covers Sign In",
+      "id": "T30.11",
+      "page": "https://www.primevideo.com/offers/nonprimehomepage",
+      "call": "signIn.open",
+      "after": {
+        "url": "/auth-redirect/stand-in$",
+        "title": "cookies turned down$"
+      }
+    },
+    {
       "name": "signIn.open leaves someone signed in where they are",
       "id": "T9.1",
       "page": "https://www.primevideo.com/region/eu/detail/0LANTERNBAYS1000000000001",

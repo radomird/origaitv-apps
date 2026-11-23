@@ -4,7 +4,9 @@
 <title>Prime Video stand-in: signed out</title>
 <!-- A stand-in for Prime Video's start page when you're signed out, made by
      hand, with its Sign In link. Prime Video's goes on to Amazon's sign-in
-     page; this one goes to a stand-in for that. -->
+     page; this one goes to a stand-in for that. A cookie banner covers it,
+     and Decline takes it away and is noted for the next page, which says so
+     in its title. -->
 <style>
   body { margin: 0; background: #0f171e; color: #eee; font: 24px sans-serif; }
   nav { display: flex; align-items: center; gap: 24px; padding: 24px 48px; }
@@ -14,11 +16,28 @@
   article a { display: block; width: 320px; height: 180px; color: #eee; background: #234; }
   li { list-style: none; margin: 16px 0; }
   li a { color: #eee; }
+  #privacy { position: fixed; inset: 0; z-index: 10; background: rgba(0, 0, 0, 0.7); display: flex; align-items: flex-end; }
+  #privacy section { flex: 1; display: flex; gap: 24px; align-items: center; padding: 48px; background: #222; }
+  #privacy p { flex: 1; margin: 0; }
 </style>
 <body>
   <nav>
     <a href="/" aria-label="Start">Start</a>
     <a href="/auth-redirect/stand-in" data-testid="pv-nav-sign-in" aria-label="Sign In">Sign In</a>
   </nav>
+  <div id="privacy">
+    <section role="dialog" aria-label="Cookie preferences">
+      <p><strong>Cookie preferences</strong> We use cookies.</p>
+      <button type="button" id="privacy-accept">Accept</button>
+      <button type="button" id="privacy-reject">Decline</button>
+    </section>
+  </div>
+  <script>
+    if (localStorage.getItem("stand-in-cookies")) document.getElementById("privacy").remove();
+    else document.getElementById("privacy-reject").addEventListener("click", () => {
+      localStorage.setItem("stand-in-cookies", "declined");
+      document.getElementById("privacy").remove();
+    });
+  </script>
 </body>
 </html>
