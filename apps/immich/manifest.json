@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "origaitv.immich",
   "name": "Immich",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "origaitv",
   "license": "MIT",
   "description": "Your Immich photos",
@@ -12,6 +12,7 @@
     "contract": 1,
     "category": "photos",
     "runtime": "web",
+    "icon": "icon.svg",
     "homeUrl": "{serverUrl}/",
     "capabilities": ["launch", "signIn", "search", "playback"],
     "setup": [
