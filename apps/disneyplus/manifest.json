@@ -12,6 +12,7 @@
     "contract": 1,
     "category": "streaming",
     "runtime": "web",
+    "icon": "icon.svg",
     "homeUrl": "https://www.disneyplus.com/",
     "capabilities": ["launch", "signIn", "search", "playback"],
     "setup": [{ "type": "signIn" }],
