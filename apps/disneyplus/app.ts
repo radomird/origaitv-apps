@@ -286,6 +286,66 @@ async function pickSeason(season: number): Promise<string | null> {
   return `Couldn't open season ${season}`;
 }
 
+// --- Cookies ---------------------------------------------------------------------
+
+// Turns down Disney+'s non-essential cookies, the way you would with a mouse:
+// in its privacy banner ("Your Privacy Settings"), the button that says Reject All.
+// It runs in the page as Disney+ draws it: now, and again as the page
+// changes, for up to 30 s, since the banner comes a moment after the page.
+// It presses only a button whose whole label is one of those words, inside
+// a banner that says those words: the button's nearest dialog or box fixed
+// over the page. So a Decline anywhere else on the page is never pressed.
+// Once they're turned down, Disney+ keeps the choice in its own cookie and
+// doesn't ask again. Those are its words, as it showed them on my NUC on 2026-11-22.
+function turnDownCookies(words: { banner: string; reject: string }): boolean {
+  const state = window as unknown as { __origaitvCookies?: boolean };
+  const banner = new RegExp(words.banner, "i");
+  const reject = new RegExp(words.reject, "i");
+  const plain = (text: string) => text.replace(/\s+/g, " ").trim();
+  const press = (): boolean => {
+    for (const button of document.querySelectorAll<HTMLElement>("button, a, [role=button]")) {
+      if (!button.getClientRects().length || !reject.test(plain(button.innerText || button.textContent || ""))) continue;
+      // The banner is the button's nearest dialog or fixed box: a banner
+      // sits over the page. Only its own words count, never the page's.
+      let box = button.parentElement;
+      while (box && box !== document.body && !box.matches("dialog, [role=dialog], [role=alertdialog], [aria-modal=true]") && !/^(fixed|sticky)$/.test(getComputedStyle(box).position)) box = box.parentElement;
+      if (!box || box === document.body || !banner.test(box.innerText || "")) continue;
+      button.click();
+      return true;
+    }
+    return false;
+  };
+  if (press()) return true;
+  if (state.__origaitvCookies) return false;
+  state.__origaitvCookies = true;
+  let later = 0;
+  const stop = () => {
+    watch.disconnect();
+    clearTimeout(later);
+    clearTimeout(end);
+    state.__origaitvCookies = false;
+  };
+  // At most four looks a second, however busy the page is.
+  const watch = new MutationObserver(() => {
+    if (later) return;
+    later = window.setTimeout(() => {
+      later = 0;
+      if (press()) stop();
+    }, 250);
+  });
+  const end = window.setTimeout(stop, 30_000);
+  watch.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "style", "hidden"] });
+  return false;
+}
+
+const COOKIES = { banner: "your privacy settings", reject: "^reject all$" };
+
+// Never in the way of what it's called from: a page that's going away
+// can't take it, and that's fine.
+async function cookies(p: AppPage): Promise<void> {
+  await p.evaluate(turnDownCookies, COOKIES).catch(() => false);
+}
+
 // --- The app -------------------------------------------------------------------
 
 // What the controls said about what's playing, while they showed: its
@@ -299,12 +359,17 @@ const app: TvApp = {
   id: "origaitv.disneyplus",
 
   async launch(ctx) {
-    await page(ctx).goto(HOME);
+    const p = page(ctx);
+    await p.goto(HOME);
+    await cookies(p);
   },
 
   signIn: {
     async isSignedIn(ctx) {
       const p = page(ctx);
+      // Asked every 2 s during a sign-in, so a banner on a page the site
+      // sent the TV on to is turned down too.
+      await cookies(p);
       const url = here(p);
       if (url.origin !== ORIGIN || url.pathname.startsWith("/identity/")) return false;
       // Only someone signed in gets the player.
@@ -321,6 +386,7 @@ const app: TvApp = {
     async open(ctx) {
       const p = page(ctx);
       await p.goto(SIGN_IN);
+      await cookies(p);
       await p.waitForSelector('#email, [data-testid="dropdown-active-profile"]', { timeout: 15_000 });
     },
   },

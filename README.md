@@ -41,7 +41,9 @@ You add a game in _Settings_, under _Home and apps_, then _Games_, or from _Add 
 
 ## Your passwords stay yours
 
-Jellyfin, Immich and Plex only talk to the server you point them at (and Plex to its own sign-in page). Disney+, HBO Max and Prime Video only open their own sites (and Prime Video sends you to Amazon's own page to sign in). Either way, you sign in on that site's own page, inside OrigaiTV's sign-in screen, and the box never keeps your password.
+Jellyfin, Immich and Plex only talk to the server you point them at (and Plex to its own sign-in page). Disney+, HBO Max and Prime Video only open their own sites (and Prime Video sends you to Amazon's own page to sign in). Either way, you sign in on that site's own page, on your TV, and the box never keeps your password.
+
+Disney+, HBO Max and Prime Video also turn down their sites' non-essential cookies for you. Each one presses its own site's Reject All or Decline when the cookie banner comes up, so the banner isn't in your way while you sign in.
 
 Steam is just Steam, and most of the other game apps work the same way. The box starts each one like any other program, and the app itself doesn't talk to anything. Where there's a sign-in, it's the platform's own, in its own window on the TV. Xbox Cloud Gaming is the one website: it only opens Xbox's own site, and you sign in on its page.
 

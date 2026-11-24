@@ -115,6 +115,16 @@
       }
     },
     {
+      "name": "signIn.open turns down HBO Max's non-essential cookies in its privacy banner",
+      "id": "T30.11",
+      "page": "https://www.hbomax.com/nl/en",
+      "call": "signIn.open",
+      "after": {
+        "url": "/auth/login$",
+        "title": "cookies turned down$"
+      }
+    },
+    {
       "name": "search finds the shows and films HBO Max shows for what was typed, without sports or clips",
       "id": "T9.1",
       "page": "https://www.hbomax.com/show/1a7e0000-0000-4000-8000-000000000001",

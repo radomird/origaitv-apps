@@ -13,6 +13,7 @@ They aren't copies of Disney+'s pages, and the titles in them are made up. The a
 
 A few of the stand-ins do a little in a script, the way Disney+'s pages do:
 
+- The sign-in form's privacy banner comes a moment after the page and covers it, with the words Disney+'s showed on my NUC ("Your Privacy Settings", Reject All, Accept All). The form comes a moment after that. Reject All takes the banner away and says so in the page's title, so a check can see the app turned the cookies down.
 - The player plays and pauses its video, and PLAY NEXT goes to the next episode. The video has no picture, so its clock stays at 0 s. On two of the players the clock also goes where it's set, and the timeline moves by as far, since the two run apart. The page's title then says where the timeline is, so a check can see a jump land.
 - One player shows its controls only after a mouse move.
 - The sign-in form sends you on to a series' page if a page before it said you were signed in.

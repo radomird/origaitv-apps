@@ -108,6 +108,16 @@
       }
     },
     {
+      "name": "signIn.open turns down Disney+'s non-essential cookies in the privacy banner that comes after the page",
+      "id": "T30.11",
+      "page": "https://www.disneyplus.com/en-nl",
+      "call": "signIn.open",
+      "after": {
+        "url": "/identity/login/enter-email$",
+        "title": "cookies turned down$"
+      }
+    },
+    {
       "name": "signIn.open doesn't wait for the form when Disney+ sends someone signed in on past it",
       "id": "T9.1",
       "page": "https://www.disneyplus.com/eu/browse/entity-f11f0000-0000-4000-8000-000000000002",

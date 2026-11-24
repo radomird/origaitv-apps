@@ -16,5 +16,9 @@
 </style>
 <body>
   <p>Amazon's sign-in page comes next.</p>
+  <script>
+    if (localStorage.getItem("stand-in-wrong")) document.title += ", the page's own Decline pressed";
+    if (localStorage.getItem("stand-in-cookies") === "declined") document.title += ", cookies turned down";
+  </script>
 </body>
 </html>

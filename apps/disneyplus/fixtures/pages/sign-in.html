@@ -4,20 +4,48 @@
 <title>Disney+ stand-in: sign in</title>
 <!-- A stand-in, made by hand: Disney+'s sign-in form at the step that asks
      for the email, which the phone fills. Someone signed in already is sent
-     on past it, as Disney+ did on the NUC. -->
+     on past it, as Disney+ did on the NUC. Its privacy banner comes a moment
+     after the page and covers it, with the words Disney+'s showed on the NUC,
+     and the form a moment after that; Reject All takes the banner away and
+     says so in the page's title. -->
 <style>
   body { margin: 0; background: #111; color: #eee; font: 24px sans-serif; }
   form { display: flex; flex-direction: column; gap: 24px; width: 600px; margin: 120px auto; }
   input, button { font: inherit; padding: 12px; }
+  #privacy { position: fixed; inset: 0; z-index: 10; background: rgba(0, 0, 0, 0.7); display: flex; align-items: flex-end; }
+  #privacy section { flex: 1; display: flex; gap: 24px; align-items: center; padding: 48px; background: #222; }
+  #privacy p { flex: 1; margin: 0; }
 </style>
 <body>
   <script>
     if (localStorage.getItem("stand-in-signed-in")) location.replace("/eu/browse/entity-5e1e5000-0000-4000-8000-000000000001");
   </script>
-  <form>
-    <label for="email">Email</label>
-    <input type="email" id="email" autocomplete="username">
-    <button type="button">Continue</button>
-  </form>
+  <template id="form">
+    <form>
+      <label for="email">Email</label>
+      <input type="email" id="email" autocomplete="username">
+      <button type="button">Continue</button>
+    </form>
+  </template>
+  <template id="banner">
+    <div id="privacy">
+    <section role="dialog" aria-label="Your Privacy Settings">
+      <p><strong>Your Privacy Settings</strong> We use cookies.</p>
+      <button type="button" id="privacy-accept">Accept All</button>
+      <button type="button" id="privacy-reject">Reject All</button>
+    </section>
+  </div>
+  </template>
+  <script>
+    const add = (id) => document.body.append(document.getElementById(id).content.cloneNode(true));
+    setTimeout(() => {
+      add("banner");
+      document.getElementById("privacy-reject").addEventListener("click", () => {
+        document.getElementById("privacy").remove();
+        document.title += ", cookies turned down";
+      });
+    }, 100);
+    setTimeout(() => add("form"), 700);
+  </script>
 </body>
 </html>

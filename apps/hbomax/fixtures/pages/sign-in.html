@@ -3,9 +3,14 @@
 <meta charset="utf-8">
 <title>HBO Max stand-in: sign in</title>
 <!-- A stand-in for HBO Max's sign-in form, made by hand. Its fields are inside
-     shadow roots, the way HBO Max draws them. -->
+     shadow roots, the way HBO Max draws them. Its privacy banner covers it,
+     with the heading HBO Max's showed on the NUC; Reject All takes the banner
+     away and says so in the page's title. -->
 <style>
   body { margin: 0; background: #000; color: #eee; font: 24px sans-serif; padding: 48px; }
+  #privacy { position: fixed; inset: 0; z-index: 10; background: rgba(0, 0, 0, 0.7); display: flex; align-items: flex-end; }
+  #privacy section { flex: 1; display: flex; gap: 24px; align-items: center; padding: 48px; background: #222; }
+  #privacy p { flex: 1; margin: 0; }
 </style>
 <body>
   <gi-sign-in></gi-sign-in>
@@ -17,6 +22,19 @@
       '<form><label>Email <input id="sign-in-phoneEmail-input" type="email" name="phoneEmail" autocomplete="email"></label>' +
       '<label>Password <input id="sign-in-password-input" type="password" name="password" autocomplete="current-password"></label>' +
       '<button type="submit">Sign In</button></form>';
+  </script>
+  <div id="privacy">
+    <section role="dialog" aria-label="We Care About Your Privacy">
+      <p><strong>We Care About Your Privacy</strong> We use cookies.</p>
+      <button type="button" id="privacy-accept">Accept All</button>
+      <button type="button" id="privacy-reject">Reject All</button>
+    </section>
+  </div>
+  <script>
+    document.getElementById("privacy-reject").addEventListener("click", () => {
+      document.getElementById("privacy").remove();
+      document.title += ", cookies turned down";
+    });
   </script>
 </body>
 </html>

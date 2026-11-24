@@ -14,6 +14,7 @@ They aren't copies of HBO Max's pages, and the titles in them are made up. The a
 
 A few of the stand-ins do a little in a script, the way HBO Max's pages do:
 
+- A privacy banner covers the sign-in form, with the heading HBO Max's showed on my NUC ("We Care About Your Privacy"). Its buttons' words are mine: HBO Max's weren't in my notes. Reject All takes the banner away and says so in the page's title.
 - The sign-in form draws its fields inside two shadow roots.
 - The player plays and pauses its video, and Next Episode goes to the next one. The video has no picture, so the stand-in gives its clock a value. On the episode's page the clock also goes where it's set, and the page's title then says where, so a check can see a jump land.
 - At `?fixture=paused` the video starts paused, and at `?fixture=loading` the player hasn't drawn its controls yet.
