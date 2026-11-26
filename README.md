@@ -85,16 +85,16 @@ Each streaming app keeps its service's addresses, and the parts of its pages it 
 
 ## Icons
 
-Each app brings its own icon, `icon.svg` in its folder, so its tile shows its logo from the first look at home, before the app has ever opened. Coming soon: a web app will swap it for the icon its own page shows, the first time it opens. An app that runs as its own program keeps the one here.
+Each app brings its own icon, `icon.svg` in its folder, so its tile shows its logo from the first look at home, before the app has ever opened. That icon stays. A site's own icon is made for a browser's tab and looks small on a TV, so the TV doesn't swap it in.
 
 I didn't draw these. Each one is its owner's own logo, taken from a collection that keeps them tidy:
 
 | App | Where it's from | Licence | What I changed |
 | --- | --- | --- | --- |
 | [Battle.net](apps/battlenet/icon.svg) | [Simple Icons](https://github.com/simple-icons/simple-icons/blob/16.38.1/icons/battledotnet.svg) | CC0 | white on its blue |
-| [Disney+](apps/disneyplus/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/disney-plus-light.svg) | CC BY 4.0 | on a dark blue square |
+| [Disney+](apps/disneyplus/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/disney-plus-light.svg) | CC BY 4.0 | white, on a full square that goes from dark blue to teal |
 | [GeForce NOW](apps/geforcenow/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/nvidia.svg) | CC BY 4.0 | nothing |
-| [HBO Max](apps/hbomax/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/hbo-max-light.svg) | CC BY 4.0 | on a black square |
+| [HBO Max](apps/hbomax/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/hbo-max-light.svg) | CC BY 4.0 | white, on a full near-black square |
 | [Heroic](apps/heroic/icon.svg) | [Simple Icons](https://github.com/simple-icons/simple-icons/blob/16.38.1/icons/heroicgameslauncher.svg) | CC0 | white on its blue |
 | [Immich](apps/immich/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/immich.svg) | CC BY 4.0 | nothing |
 | [Jellyfin](apps/jellyfin/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/jellyfin.svg) | CC BY 4.0 | nothing |
@@ -102,12 +102,12 @@ I didn't draw these. Each one is its owner's own logo, taken from a collection t
 | [Minecraft](apps/minecraft/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/minecraft.svg) | CC BY 4.0 | nothing |
 | [Moonlight](apps/moonlight/icon.svg) | [Moonlight's own repo](https://github.com/moonlight-stream/moonlight-qt/blob/v6.2.0/app/res/moonlight.svg) | GPL-3.0, like Moonlight | nothing |
 | [Plex](apps/plex/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/plex.svg) | CC BY 4.0 | nothing |
-| [Prime Video](apps/primevideo/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/amazon-prime-video.svg) | CC BY 4.0 | nothing |
+| [Prime Video](apps/primevideo/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/amazon-prime-video.svg) | CC BY 4.0 | white, on a full square of its blue |
 | [RetroArch](apps/retroarch/icon.svg) | [Simple Icons](https://github.com/simple-icons/simple-icons/blob/16.38.1/icons/retroarch.svg) | CC0 | white on black |
 | [Steam](apps/steam/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/steam.svg) | CC BY 4.0 | nothing |
 | [Xbox Cloud Gaming](apps/xboxcloud/icon.svg) | [selfh.st icons](https://github.com/selfhst/icons/blob/df07d93a4b9e1c3930007971a1dfa6203ea02aea/svg/xbox.svg) | CC BY 4.0 | nothing |
 
-Where a logo is one colour, or too dark to see on a dark TV, I put it on a rounded square so it reads on any theme. The [selfh.st icons](https://github.com/selfhst/icons) are under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), [Simple Icons](https://github.com/simple-icons/simple-icons) under [CC0](https://creativecommons.org/publicdomain/zero/1.0/), and Moonlight's under [GPL-3.0](https://github.com/moonlight-stream/moonlight-qt/blob/v6.2.0/LICENSE). The logos themselves are still their owners' trademarks (see below).
+Where a logo is one colour, or too dark to see on a dark TV, I put it on a rounded square so it reads on any theme. The three streaming apps' icons are drawn the way a phone shows an app: the logo in white, large, on a full square in the service's colour. The square has no rounded corners of its own, since home rounds them to match the look you picked. I made those from the logo files above, not from the services' own app icons. The [selfh.st icons](https://github.com/selfhst/icons) are under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), [Simple Icons](https://github.com/simple-icons/simple-icons) under [CC0](https://creativecommons.org/publicdomain/zero/1.0/), and Moonlight's under [GPL-3.0](https://github.com/moonlight-stream/moonlight-qt/blob/v6.2.0/LICENSE). The logos themselves are still their owners' trademarks (see below).
 
 ## Whose names these are
 
